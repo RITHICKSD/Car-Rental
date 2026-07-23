@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DriveFree Customer Dashboard – View active bookings, rental history, manage extensions, and download agreements.">
+    <title>My Dashboard | DriveFree Customer Portal</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: var(--bg-color); }
+        /* Status badges */
+        .status-badge { display:inline-block; padding:.3rem .8rem; border-radius:20px; font-size:.78rem; font-weight:700; }
+        .status-active { background:rgba(16,185,129,.12); color:#10b981; }
+        .status-completed { background:rgba(59,130,246,.12); color:#3b82f6; }
+        .status-extended { background:rgba(245,158,11,.12); color:#f59e0b; }
+        .status-cancelled { background:rgba(239,68,68,.12); color:#ef4444; }
+
+        /* Sidebar nav items */
+        .sidebar-link { cursor:pointer; }
+        .sidebar-logout { color:#ef4444 !important; }
+        .sidebar-logout:hover { background:rgba(239,68,68,.1) !important; }
+
+        /* Tab Content */
+        .tab-pane { display:none; }
+        .tab-pane.active { display:block; }
+        .tab-btns { display:flex; gap:.75rem; margin-bottom:2rem; flex-wrap:wrap; }
+        .tab-btn { padding:.6rem 1.4rem; border-radius:25px; border:2px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer; transition:all .3s; }
+        .tab-btn.active { background:var(--primary-color); border-color:var(--primary-color); color:white; }
+
+        /* Section Headers in Dashboard */
+        .dash-section-title { font-size:1.15rem; font-weight:700; margin-bottom:1.25rem; display:flex; align-items:center; gap:.6rem; }
+        .dash-section-title i { color:var(--primary-color); }
+
+        /* Extension Form */
+        .form-group { margin-bottom:1.25rem; }
+        .form-group label { display:block; font-weight:600; font-size:.9rem; margin-bottom:.4rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width:100%; padding:.8rem 1rem; border:1px solid var(--border-color);
+            border-radius:8px; background:var(--bg-color); color:var(--text-color);
+            font-size:.95rem; outline:none; transition:all .3s; font-family:inherit;
+        }
+        .form-group input:focus, .form-group select:focus { border-color:var(--primary-color); }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+        /* Rental agreement download */
+        .agreement-card {
+            background:var(--surface-color); border:1px solid var(--border-color); border-radius:12px;
+            padding:1.25rem; display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:1rem; transition:all .3s;
+        }
+        .agreement-card:hover { border-color:var(--primary-color); box-shadow:var(--shadow); }
+        .agreement-info { display:flex; align-items:center; gap:1rem; }
+        .agreement-icon { width:45px; height:45px; border-radius:10px; background:rgba(239,68,68,.1); color:#ef4444; display:flex; align-items:center; justify-content:center; font-size:1.3rem; }
+        .agreement-info h4 { font-weight:700; font-size:.95rem; }
+        .agreement-info p { color:var(--text-muted); font-size:.82rem; }
+
+        /* Profile form */
+        .profile-avatar { width:90px; height:90px; border-radius:50%; background:linear-gradient(135deg,var(--primary-color),#60a5fa); display:flex; align-items:center; justify-content:center; color:white; font-size:2rem; font-weight:800; margin-bottom:1rem; }
+
+        /* Availability indicator */
+        .avail-indicator { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:.4rem; }
+        .avail-yes { background:#10b981; }
+        .avail-no { background:#ef4444; }
+
+        /* Mobile Sidebar Toggle */
+        .mobile-sidebar-toggle {
+            display: none;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.6rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        .mobile-sidebar-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                background: var(--surface-color);
+                box-shadow: 2px 0 20px rgba(0,0,0,0.15);
+                width: 280px;
+                padding: 1.5rem;
+            }
+            .dashboard-sidebar .dashboard-logo {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 2rem;
+            }
+            .dashboard-sidebar .dashboard-logo span {
+                display: inline;
+            }
+            .dashboard-sidebar .sidebar-link {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.85rem 1rem;
+                margin-bottom: 0.5rem;
+                border-radius: 8px;
+                transition: all 0.3s;
+            }
+            .dashboard-sidebar .sidebar-link span {
+                display: inline;
+            }
+            .dashboard-sidebar.open {
+                left: 0;
+            }
+            .dashboard-content {
+                margin-left: 0;
+                padding: 1rem;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            .mobile-sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .dashboard-header {
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .user-profile {
+                margin-left: auto;
+            }
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .chart-container, .table-container {
+                padding: 1rem;
+                margin-top: 1rem;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header h2 {
+                font-size: 1.2rem;
+            }
+            .dashboard-header p {
+                font-size: 0.85rem;
+            }
+            .user-profile {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .user-profile > div {
+                text-align: left;
+            }
+            .user-profile p {
+                text-align: left;
+            }
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .tab-btns {
+                flex-direction: column;
+            }
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .agreement-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .agreement-card .btn {
+                width: 100%;
+            }
+            .profile-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-header {
+                padding: 1rem;
+            }
+            .dashboard-header h2 {
+                font-size: 1.1rem;
+            }
+            .dashboard-header p {
+                font-size: 0.8rem;
+            }
+            .user-profile {
+                font-size: 0.85rem;
+            }
+            .user-profile .avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.85rem;
+            }
+            .stat-card {
+                padding: 1rem;
+            }
+            .stat-card .value {
+                font-size: 1.5rem;
+            }
+            .stat-card h3 {
+                font-size: 0.85rem;
+            }
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            .form-group label {
+                font-size: 0.85rem;
+            }
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 0.7rem 0.9rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .sidebar-overlay.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-layout">
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="dashboard-sidebar">
+        <div class="dashboard-logo">
+            <a href="index.html"><i class="fas fa-car"></i> <span>DriveFree</span></a>
+        </div>
+        <nav class="sidebar-nav">
+            <a class="sidebar-link active" data-tab="overview" onclick="switchTab('overview', this)">
+                <i class="fas fa-th-large"></i> <span>Overview</span>
+            </a>
+            <a class="sidebar-link" data-tab="active-bookings" onclick="switchTab('active-bookings', this)">
+                <i class="fas fa-calendar-check"></i> <span>Active Bookings</span>
+            </a>
+            <a class="sidebar-link" data-tab="rental-history" onclick="switchTab('rental-history', this)">
+                <i class="fas fa-history"></i> <span>Rental History</span>
+            </a>
+            <a class="sidebar-link" data-tab="extensions" onclick="switchTab('extensions', this)">
+                <i class="fas fa-plus-circle"></i> <span>Manage Extensions</span>
+            </a>
+            <a class="sidebar-link" data-tab="availability" onclick="switchTab('availability', this)">
+                <i class="fas fa-search"></i> <span>Check Availability</span>
+            </a>
+            <a class="sidebar-link" data-tab="agreements" onclick="switchTab('agreements', this)">
+                <i class="fas fa-file-contract"></i> <span>Rental Agreements</span>
+            </a>
+            <a class="sidebar-link" data-tab="profile" onclick="switchTab('profile', this)">
+                <i class="fas fa-user-cog"></i> <span>Profile Settings</span>
+            </a>
+            <a href="index.html" class="sidebar-link sidebar-logout" style="margin-top:2rem">
+                <i class="fas fa-sign-out-alt"></i> <span>Back to Site</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <h2 style="font-size:1.4rem; font-weight:800;">Customer Dashboard</h2>
+                    <p style="color:var(--text-muted); font-size:.9rem;">Welcome back, Rahul Kulkarni</p>
+                </div>
+            </div>
+            <div class="user-profile">
+                <div>
+                    <p style="font-weight:600; font-size:1rem; text-align:right;">Rahul Kulkarni</p>
+                    <p style="font-size:.85rem; color:var(--primary-color); text-align:right;">🥇 Gold Member</p>
+                </div>
+                <div class="avatar">RK</div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <button class="btn-icon" id="theme-toggle"><i class="fas fa-moon"></i></button>
+                    <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                        <span class="pill-label">LTR</span>
+                        <span class="pill-circle">L</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: OVERVIEW -->
+        <div class="tab-pane active" id="tab-overview">
+            <!-- Stat Cards -->
+            <div class="grid-4" style="margin-bottom:2rem;">
+                <div class="stat-card">
+                    <div class="stat-info"><h3>Active Rentals</h3><div class="value">2</div></div>
+                    <div class="stat-icon"><i class="fas fa-car"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info"><h3>Total Bookings</h3><div class="value">22</div></div>
+                    <div class="stat-icon" style="background:rgba(16,185,129,.1);color:#10b981;"><i class="fas fa-calendar-check"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info"><h3>Total Spent</h3><div class="value">₹23.5K</div></div>
+                    <div class="stat-icon" style="background:rgba(245,158,11,.1);color:#f59e0b;"><i class="fas fa-rupee-sign"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info"><h3>Loyalty Points</h3><div class="value">1,240</div></div>
+                    <div class="stat-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6;"><i class="fas fa-star"></i></div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid-2" style="margin-bottom:2rem;">
+                <div class="chart-container">
+                    <div class="dash-section-title"><i class="fas fa-chart-line"></i> Monthly Rental Spend</div>
+                    <canvas id="spendingChart" height="180"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="dash-section-title"><i class="fas fa-chart-pie"></i> Booking Status Breakdown</div>
+                    <canvas id="statusChart" height="180"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Bookings Table -->
+            <div class="table-container">
+                <div class="dash-section-title"><i class="fas fa-list-ul"></i> Recent Bookings</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr>
+                            <th>Booking ID</th><th>Vehicle</th><th>Pick-up</th><th>Drop-off</th><th>Duration</th><th>Amount</th><th>Status</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td>#DF2601</td><td>Hyundai Creta</td><td>12 Jul 2026</td><td>15 Jul 2026</td><td>3 days</td><td>₹5,097</td><td><span class="status-badge status-completed">Completed</span></td></tr>
+                            <tr><td>#DF2587</td><td>Honda City</td><td>20 Jun 2026</td><td>23 Jun 2026</td><td>3 days</td><td>₹3,897</td><td><span class="status-badge status-completed">Completed</span></td></tr>
+                            <tr><td>#DF2634</td><td>Maruti Swift</td><td>18 Jul 2026</td><td>20 Jul 2026</td><td>2 days</td><td>₹1,598</td><td><span class="status-badge status-active">Active</span></td></tr>
+                            <tr><td>#DF2641</td><td>Mahindra XUV700</td><td>19 Jul 2026</td><td>22 Jul 2026</td><td>3 days</td><td>₹6,597</td><td><span class="status-badge status-active">Active</span></td></tr>
+                            <tr><td>#DF2555</td><td>Tata Safari</td><td>10 May 2026</td><td>12 May 2026</td><td>2 days</td><td>₹3,998</td><td><span class="status-badge status-cancelled">Cancelled</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: ACTIVE BOOKINGS -->
+        <div class="tab-pane" id="tab-active-bookings">
+            <div class="dash-section-title"><i class="fas fa-calendar-check"></i> Your Active Bookings</div>
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+                <div class="card" style="border:none; box-shadow:var(--shadow);">
+                    <div style="display:grid; grid-template-columns:auto 1fr auto; gap:1.5rem; padding:1.5rem; align-items:center;">
+                        <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=200&q=80" alt="Swift" style="width:130px; height:80px; object-fit:cover; border-radius:10px;">
+                        <div>
+                            <h3 style="font-weight:700; margin-bottom:.4rem;">Maruti Swift <span class="status-badge status-active" style="margin-left:.5rem;">Active</span></h3>
+                            <p style="color:var(--text-muted); font-size:.9rem; margin-bottom:.3rem;"><i class="fas fa-calendar" style="color:var(--primary-color)"></i> 18 Jul 2026 → 20 Jul 2026 &nbsp;|&nbsp; 2 Days</p>
+                            <p style="color:var(--text-muted); font-size:.9rem; margin-bottom:.3rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Pickup: BKC, Mumbai</p>
+                            <p style="color:var(--text-muted); font-size:.9rem;"><i class="fas fa-hashtag" style="color:var(--primary-color)"></i> Booking ID: #DF2634</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <p style="font-size:1.4rem; font-weight:800; color:var(--primary-color); margin-bottom:.5rem;">₹1,598</p>
+                            <button class="btn btn-primary" style="font-size:.85rem; margin-bottom:.5rem; width:100%;" onclick="switchTab('extensions', document.querySelector('[data-tab=extensions]'))"><i class="fas fa-plus"></i> Extend</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="border:none; box-shadow:var(--shadow);">
+                    <div style="display:grid; grid-template-columns:auto 1fr auto; gap:1.5rem; padding:1.5rem; align-items:center;">
+                        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=200&q=80" alt="XUV700" style="width:130px; height:80px; object-fit:cover; border-radius:10px;">
+                        <div>
+                            <h3 style="font-weight:700; margin-bottom:.4rem;">Mahindra XUV700 <span class="status-badge status-active" style="margin-left:.5rem;">Active</span></h3>
+                            <p style="color:var(--text-muted); font-size:.9rem; margin-bottom:.3rem;"><i class="fas fa-calendar" style="color:var(--primary-color)"></i> 19 Jul 2026 → 22 Jul 2026 &nbsp;|&nbsp; 3 Days</p>
+                            <p style="color:var(--text-muted); font-size:.9rem; margin-bottom:.3rem;"><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Pickup: Hinjewadi, Pune</p>
+                            <p style="color:var(--text-muted); font-size:.9rem;"><i class="fas fa-hashtag" style="color:var(--primary-color)"></i> Booking ID: #DF2641</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <p style="font-size:1.4rem; font-weight:800; color:var(--primary-color); margin-bottom:.5rem;">₹6,597</p>
+                            <button class="btn btn-primary" style="font-size:.85rem; margin-bottom:.5rem; width:100%;" onclick="switchTab('extensions', document.querySelector('[data-tab=extensions]'))"><i class="fas fa-plus"></i> Extend</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: RENTAL HISTORY -->
+        <div class="tab-pane" id="tab-rental-history">
+            <div class="dash-section-title"><i class="fas fa-history"></i> Rental History</div>
+            <div class="tab-btns">
+                <button class="tab-btn active" data-tab="hist-all">All</button>
+                <button class="tab-btn" data-tab="hist-completed">Completed</button>
+                <button class="tab-btn" data-tab="hist-cancelled">Cancelled</button>
+            </div>
+            <div class="table-container" style="margin-top:0;">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr>
+                            <th>Booking ID</th><th>Vehicle</th><th>Category</th><th>Pick-up</th><th>Drop-off</th><th>Amount</th><th>Status</th><th>Action</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td>#DF2601</td><td>Hyundai Creta</td><td>SUV</td><td>12 Jul 2026</td><td>15 Jul 2026</td><td>₹5,097</td><td><span class="status-badge status-completed">Completed</span></td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Download</a></td></tr>
+                            <tr><td>#DF2587</td><td>Honda City</td><td>Sedan</td><td>20 Jun 2026</td><td>23 Jun 2026</td><td>₹3,897</td><td><span class="status-badge status-completed">Completed</span></td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Download</a></td></tr>
+                            <tr><td>#DF2562</td><td>Tata Harrier</td><td>SUV</td><td>01 Jun 2026</td><td>05 Jun 2026</td><td>₹7,596</td><td><span class="status-badge status-extended">Extended</span></td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Download</a></td></tr>
+                            <tr><td>#DF2555</td><td>Tata Safari</td><td>MUV</td><td>10 May 2026</td><td>12 May 2026</td><td>₹3,998</td><td><span class="status-badge status-cancelled">Cancelled</span></td><td>—</td></tr>
+                            <tr><td>#DF2521</td><td>Maruti Swift</td><td>Economy</td><td>15 Apr 2026</td><td>17 Apr 2026</td><td>₹1,598</td><td><span class="status-badge status-completed">Completed</span></td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Download</a></td></tr>
+                            <tr><td>#DF2498</td><td>Skoda Slavia</td><td>Sedan</td><td>22 Mar 2026</td><td>24 Mar 2026</td><td>₹2,998</td><td><span class="status-badge status-completed">Completed</span></td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Download</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: EXTENSIONS -->
+        <div class="tab-pane" id="tab-extensions">
+            <div class="dash-section-title"><i class="fas fa-plus-circle"></i> Request Rental Extension</div>
+            <div class="grid-2" style="align-items:start; gap:2rem;">
+                <div class="chart-container" style="margin-top:0;">
+                    <h3 style="font-weight:700; margin-bottom:1rem;">Extension Guidelines</h3>
+                    <p style="color:var(--text-muted); line-height:1.8; margin-bottom:1rem;">Extensions are subject to vehicle availability. Submit your request at least 4 hours before the current return deadline. Our team will confirm within 2–4 hours.</p>
+                    <ul style="list-style:none; display:flex; flex-direction:column; gap:.75rem;">
+                        <li style="display:flex; gap:.75rem; color:var(--text-muted); align-items:flex-start;"><i class="fas fa-check-circle" style="color:#10b981; margin-top:.2rem;"></i> Extensions charged at standard daily rate</li>
+                        <li style="display:flex; gap:.75rem; color:var(--text-muted); align-items:flex-start;"><i class="fas fa-check-circle" style="color:#10b981; margin-top:.2rem;"></i> Minimum extension period: 1 day</li>
+                        <li style="display:flex; gap:.75rem; color:var(--text-muted); align-items:flex-start;"><i class="fas fa-check-circle" style="color:#10b981; margin-top:.2rem;"></i> Maximum 7 days extension allowed</li>
+                        <li style="display:flex; gap:.75rem; color:var(--text-muted); align-items:flex-start;"><i class="fas fa-check-circle" style="color:#10b981; margin-top:.2rem;"></i> Payment made online before extension confirmation</li>
+                    </ul>
+                </div>
+                <form class="chart-container" style="margin-top:0;" id="extension-form">
+                    <h3 style="font-weight:700; margin-bottom:1.25rem;">Request Extension</h3>
+                    <div class="form-group">
+                        <label>Select Active Booking</label>
+                        <select>
+                            <option>DF2634 – Maruti Swift (Due: 20 Jul 2026)</option>
+                            <option>DF2641 – Mahindra XUV700 (Due: 22 Jul 2026)</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Current Return Date</label>
+                            <input type="date" value="2026-07-20" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>New Return Date</label>
+                            <input type="date" id="new-return-date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Extension (Optional)</label>
+                        <input type="text" placeholder="e.g. Trip extended, emergency, etc.">
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea rows="3" placeholder="Any additional information for our team..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-paper-plane"></i> Submit Extension Request</button>
+                    <p id="extension-msg" style="margin-top:1rem; font-weight:600;"></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB: CHECK AVAILABILITY -->
+        <div class="tab-pane" id="tab-availability">
+            <div class="dash-section-title"><i class="fas fa-search"></i> Check Vehicle Availability</div>
+            <div class="chart-container" style="margin-top:0; max-width:600px;">
+                <h3 style="font-weight:700; margin-bottom:1.25rem;">Search by Date Range</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Pick-up Date</label>
+                        <input type="date" id="pickup-date">
+                    </div>
+                    <div class="form-group">
+                        <label>Drop-off Date</label>
+                        <input type="date" id="dropoff-date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Vehicle Category</label>
+                    <select>
+                        <option>All Categories</option>
+                        <option>Economy</option>
+                        <option>Sedan</option>
+                        <option>SUV</option>
+                        <option>Luxury</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" style="width:100%;" id="check-availability"><i class="fas fa-search"></i> Check Availability</button>
+                <p id="availability-result" style="margin-top:1rem; font-weight:600;"></p>
+            </div>
+            <div style="margin-top:2rem;">
+                <div class="dash-section-title"><i class="fas fa-list"></i> Real-time Fleet Status</div>
+                <div class="table-container" style="margin-top:0;">
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>Vehicle</th><th>Category</th><th>Status</th><th>Available From</th><th>Daily Rate</th><th></th></tr></thead>
+                            <tbody>
+                                <tr><td>Maruti Swift</td><td>Economy</td><td><span class="avail-indicator avail-yes"></span>Available</td><td>Now</td><td>₹799</td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Book</a></td></tr>
+                                <tr><td>Hyundai i20</td><td>Economy</td><td><span class="avail-indicator avail-yes"></span>Available</td><td>Now</td><td>₹899</td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Book</a></td></tr>
+                                <tr><td>Honda City</td><td>Sedan</td><td><span class="avail-indicator avail-no"></span>Rented</td><td>22 Jul 2026</td><td>₹1,299</td><td><span style="color:var(--text-muted);font-size:.85rem;">Unavailable</span></td></tr>
+                                <tr><td>Hyundai Creta</td><td>SUV</td><td><span class="avail-indicator avail-yes"></span>Available</td><td>Now</td><td>₹1,699</td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Book</a></td></tr>
+                                <tr><td>Mahindra XUV700</td><td>SUV</td><td><span class="avail-indicator avail-no"></span>Rented</td><td>22 Jul 2026</td><td>₹2,199</td><td><span style="color:var(--text-muted);font-size:.85rem;">Unavailable</span></td></tr>
+                                <tr><td>Mercedes C-Class</td><td>Luxury</td><td><span class="avail-indicator avail-yes"></span>Available</td><td>Now</td><td>₹4,999</td><td><a href="#" class="btn btn-primary" style="font-size:.78rem;padding:.35rem .7rem;">Book</a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: RENTAL AGREEMENTS -->
+        <div class="tab-pane" id="tab-agreements">
+            <div class="dash-section-title"><i class="fas fa-file-contract"></i> Rental Agreements</div>
+            <p style="color:var(--text-muted); margin-bottom:1.5rem;">Download signed rental agreements for your completed and active bookings.</p>
+            <div class="agreement-card">
+                <div class="agreement-info">
+                    <div class="agreement-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div><h4>Rental Agreement – #DF2641</h4><p>Mahindra XUV700 · 19 Jul 2026 – 22 Jul 2026 · Active</p></div>
+                </div>
+                <a href="#" class="btn btn-primary" style="font-size:.85rem;"><i class="fas fa-download"></i> Download PDF</a>
+            </div>
+            <div class="agreement-card">
+                <div class="agreement-info">
+                    <div class="agreement-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div><h4>Rental Agreement – #DF2634</h4><p>Maruti Swift · 18 Jul 2026 – 20 Jul 2026 · Active</p></div>
+                </div>
+                <a href="#" class="btn btn-primary" style="font-size:.85rem;"><i class="fas fa-download"></i> Download PDF</a>
+            </div>
+            <div class="agreement-card">
+                <div class="agreement-info">
+                    <div class="agreement-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div><h4>Rental Agreement – #DF2601</h4><p>Hyundai Creta · 12 Jul – 15 Jul 2026 · Completed</p></div>
+                </div>
+                <a href="#" class="btn btn-primary" style="font-size:.85rem;"><i class="fas fa-download"></i> Download PDF</a>
+            </div>
+            <div class="agreement-card">
+                <div class="agreement-info">
+                    <div class="agreement-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div><h4>Rental Agreement – #DF2587</h4><p>Honda City · 20 Jun – 23 Jun 2026 · Completed</p></div>
+                </div>
+                <a href="#" class="btn btn-primary" style="font-size:.85rem;"><i class="fas fa-download"></i> Download PDF</a>
+            </div>
+            <div class="agreement-card">
+                <div class="agreement-info">
+                    <div class="agreement-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div><h4>Rental Agreement – #DF2562</h4><p>Tata Harrier · 01 Jun – 05 Jun 2026 · Extended</p></div>
+                </div>
+                <a href="#" class="btn btn-primary" style="font-size:.85rem;"><i class="fas fa-download"></i> Download PDF</a>
+            </div>
+        </div>
+
+        <!-- TAB: PROFILE SETTINGS -->
+        <div class="tab-pane" id="tab-profile">
+            <div class="dash-section-title"><i class="fas fa-user-cog"></i> Profile Settings</div>
+            <div class="grid-2" style="gap:2rem; align-items:start;">
+                <div class="chart-container" style="margin-top:0;">
+                    <div class="profile-avatar">RK</div>
+                    <h3 style="font-weight:700; margin-bottom:.25rem;">Rahul Kulkarni</h3>
+                    <p style="color:var(--primary-color); font-weight:600; margin-bottom:1.5rem;">🥇 Gold Member</p>
+                    <div class="form-group"><label>Full Name</label><input type="text" value="Rahul Kulkarni"></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" value="rahul.kulkarni@email.com"></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" value="+91 98765 11111"></div>
+                    <div class="form-group"><label>Date of Birth</label><input type="date" value="1990-06-15"></div>
+                    <button class="btn btn-primary" style="width:100%;" onclick="alert('Profile updated successfully!')"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+                <div>
+                    <div class="chart-container" style="margin-top:0; margin-bottom:1.5rem;">
+                        <h3 style="font-weight:700; margin-bottom:1rem;">Driving License</h3>
+                        <div class="form-group"><label>License Number</label><input type="text" value="MH01-20101234567"></div>
+                        <div class="form-group"><label>Valid Until</label><input type="date" value="2031-06-15"></div>
+                        <div class="form-group"><label>State of Issue</label><input type="text" value="Maharashtra"></div>
+                    </div>
+                    <div class="chart-container" style="margin-top:0;">
+                        <h3 style="font-weight:700; margin-bottom:1rem;">Change Password</h3>
+                        <div class="form-group"><label>Current Password</label><input type="password" placeholder="Enter current password"></div>
+                        <div class="form-group"><label>New Password</label><input type="password" placeholder="Enter new password"></div>
+                        <div class="form-group"><label>Confirm New Password</label><input type="password" placeholder="Confirm new password"></div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="alert('Password changed successfully!')"><i class="fas fa-lock"></i> Update Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /dashboard-content -->
+</div><!-- /dashboard-layout -->
+
+<script src="js/main.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+function switchTab(tabId, el) {
+    // Hide all tab panes
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    // Remove active from all sidebar links
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    // Show target tab
+    const target = document.getElementById('tab-' + tabId);
+    if (target) target.classList.add('active');
+    // Set active on clicked sidebar link
+    if (el) el.classList.add('active');
+}
+// Make sidebar links work
+document.querySelectorAll('.sidebar-link[data-tab]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        switchTab(this.getAttribute('data-tab'), this);
+        // Close mobile sidebar after clicking a link
+        if (window.innerWidth <= 1024) {
+            document.querySelector('.dashboard-sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('show');
+        }
+    });
+});
+
+// Mobile sidebar toggle
+const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
+const sidebar = document.querySelector('.dashboard-sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+if (mobileSidebarToggle && sidebar && sidebarOverlay) {
+    mobileSidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('show');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('show');
+    });
+
+    // Close sidebar on window resize if opened
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('show');
+        }
+    });
+}
+</script>
+</body>
+</html>

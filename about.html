@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About DriveFree – Our story, mission, team, and the values that drive us to deliver the best car rental experience.">
+    <title>About Us | DriveFree Car Rental</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        [data-aos]{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease}[data-aos].aos-visible{opacity:1;transform:translateY(0)}
+        .main-header.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.15)}.nav-link.active-link{color:var(--primary-color)}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+        .footer-col h4{font-weight:700;margin-bottom:1rem}.footer-col p{color:var(--text-muted);font-size:.9rem;margin-bottom:.5rem}
+        .footer-col ul li{margin-bottom:.5rem}.footer-col ul li a{color:var(--text-muted);font-size:.9rem;transition:color .3s}
+        .footer-col ul li a:hover{color:var(--primary-color)}
+        .social-links{display:flex;gap:.75rem;margin-top:1rem}
+        .social-links a{width:38px;height:38px;border-radius:50%;background:var(--bg-color);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .3s}
+        .social-links a:hover{background:var(--primary-color);color:white;border-color:var(--primary-color)}
+
+        /* Page Hero */
+        .page-hero{padding:7rem 2rem 4rem;background:linear-gradient(135deg,rgba(15,23,42,0.75) 0%,rgba(30,58,138,0.75) 100%),url('ab.jpg') center/cover no-repeat;text-align:center}
+        .page-hero h1{font-size:3rem;font-weight:800;color:white;margin-bottom:1rem}
+        .page-hero p{color:#93c5fd;font-size:1.1rem;max-width:600px;margin:0 auto}
+        .breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.9rem}
+        .breadcrumb a{color:#93c5fd}.breadcrumb span{color:#64748b}
+
+        /* Our Story */
+        .story-section{padding:5rem 2rem;background:var(--bg-color)}
+        .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+        .story-image{border-radius:20px;overflow:hidden;box-shadow:var(--card-shadow)}
+        .story-image img{width:100%;display:block}
+        .story-content h2{font-size:2rem;font-weight:800;margin-bottom:1rem;color:var(--primary-color)}
+        .story-content p{color:var(--text-muted);line-height:1.8;margin-bottom:1rem}
+        .story-milestones{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+        .milestone{background:var(--surface-color);border:1px solid var(--border-color);border-radius:12px;padding:1rem;text-align:center}
+        .milestone h3{font-size:1.8rem;font-weight:800;color:var(--primary-color)}
+        .milestone p{font-size:.85rem;color:var(--text-muted)}
+
+        /* Mission Vision */
+        .mission-section{padding:5rem 2rem;background:var(--surface-color)}
+        .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem}
+        .mv-card{border-radius:20px;padding:2.5rem;border:1px solid var(--border-color);transition:all .3s}
+        .mv-card:hover{transform:translateY(-5px);box-shadow:var(--card-shadow)}
+        .mv-card.mission{background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(99,102,241,.08));border-color:rgba(37,99,235,.3)}
+        .mv-card.vision{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(52,211,153,.08));border-color:rgba(16,185,129,.3)}
+        .mv-icon{font-size:2.5rem;margin-bottom:1rem}
+        .mv-card.mission .mv-icon{color:#3b82f6}.mv-card.vision .mv-icon{color:#10b981}
+        .mv-card h3{font-size:1.4rem;font-weight:700;margin-bottom:0.75rem}
+        .mv-card p{color:var(--text-muted);line-height:1.8}
+
+        /* Team */
+        .team-section{padding:5rem 2rem;background:var(--bg-color)}
+        .team-card{background:var(--surface-color);border-radius:16px;overflow:hidden;border:1px solid var(--border-color);text-align:center;transition:all .3s}
+        .team-card:hover{transform:translateY(-8px);box-shadow:var(--card-shadow)}
+        .team-card img{width:100%;height:250px;object-fit:cover;object-position:top}
+        .team-card-body{padding:1.5rem}
+        .team-card-body h3{font-weight:700;margin-bottom:.25rem}
+        .team-card-body .role{color:var(--primary-color);font-size:.9rem;font-weight:600;margin-bottom:.75rem}
+        .team-card-body p{color:var(--text-muted);font-size:.85rem;line-height:1.6}
+        .team-socials{display:flex;justify-content:center;gap:.5rem;margin-top:1rem}
+        .team-socials a{width:34px;height:34px;border-radius:50%;background:var(--bg-color);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;transition:all .3s}
+        .team-socials a:hover{background:var(--primary-color);color:white;border-color:var(--primary-color)}
+
+        /* Achievements */
+        .achievements-section{padding:5rem 2rem;background:linear-gradient(135deg,#1e3a8a,#2563eb)}
+        .ach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3rem}
+        .ach-card{text-align:center;padding:2rem}
+        .ach-icon{font-size:2.5rem;color:#93c5fd;margin-bottom:1rem}
+        .ach-card h3{font-size:2.5rem;font-weight:800;color:white;margin-bottom:.5rem}
+        .ach-card p{color:#93c5fd;font-size:.95rem}
+
+        /* Partners */
+        .partners-section{padding:5rem 2rem;background:var(--surface-color)}
+        .partners-grid{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;align-items:center;margin-top:2.5rem}
+        .partner-logo{background:var(--bg-color);border:1px solid var(--border-color);border-radius:12px;padding:1.25rem 2rem;font-weight:700;font-size:1.1rem;color:var(--text-muted);transition:all .3s}
+        .partner-logo:hover{color:var(--primary-color);border-color:var(--primary-color);transform:translateY(-3px)}
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .story-grid{grid-template-columns:1fr;gap:2rem}
+            .mv-grid{grid-template-columns:1fr;gap:1.5rem}
+            .ach-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+
+        @media (max-width: 768px) {
+            .page-hero{padding:5rem 1.5rem 3rem}
+            .page-hero h1{font-size:2.2rem}
+            .page-hero p{font-size:1rem}
+            .story-section{padding:3rem 1.5rem}
+            .mission-section{padding:3rem 1.5rem}
+            .team-section{padding:3rem 1.5rem}
+            .achievements-section{padding:3rem 1.5rem}
+            .partners-section{padding:3rem 1.5rem}
+            .story-milestones{grid-template-columns:1fr 1fr;gap:0.75rem}
+            .milestone{padding:0.75rem}
+            .milestone h3{font-size:1.5rem}
+            .mv-card{padding:1.5rem}
+            .team-card img{height:200px}
+            .team-card-body{padding:1.25rem}
+            .ach-grid{grid-template-columns:1fr;gap:1rem}
+            .ach-card{padding:1.5rem}
+            .ach-icon{font-size:2rem}
+            .ach-card h3{font-size:2rem}
+            .partners-grid{gap:1rem}
+            .partner-logo{padding:1rem 1.5rem;font-size:1rem}
+        }
+
+        @media (max-width: 480px) {
+            .page-hero h1{font-size:1.8rem}
+            .page-hero p{font-size:0.9rem}
+            .story-section,.mission-section,.team-section,.achievements-section,.partners-section{padding:2.5rem 1rem}
+            .story-content h2{font-size:1.5rem}
+            .story-milestones{grid-template-columns:1fr}
+            .mv-card{padding:1.25rem}
+            .mv-icon{font-size:2rem}
+            .mv-card h3{font-size:1.2rem}
+            .team-card img{height:180px}
+            .ach-card{padding:1.25rem;text-align:center}
+            .ach-icon{font-size:1.8rem}
+            .ach-card h3{font-size:1.75rem}
+            .partner-logo{padding:0.75rem 1rem;font-size:0.9rem}
+            .footer-grid{grid-template-columns:1fr;gap:1.5rem}
+        }
+    </style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo"><a href="index.html"><h1><i class="fas fa-car"></i> DriveFree</h1></a></div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <nav><ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Home <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu"><li><a href="index.html">Home 1</a></li><li><a href="home2.html">Home 2</a></li></ul>
+            </li>
+            <li class="nav-item"><a href="about.html" class="nav-link active-link">About</a></li>
+            <li class="nav-item">
+                <a href="services.html" class="nav-link">Services</a>
+            </li>
+            <li class="nav-item"><a href="fleet.html" class="nav-link">Our Fleet</a></li>
+            <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Dashboard <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="user-dashboard.html">User Dashboard</a></li>
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </li>
+            <li class="nav-item mobile-menu-actions">
+                <div class="mobile-menu-actions-row">
+                    <button class="btn-icon" id="theme-toggle-mobile"><i class="fas fa-moon"></i></button>
+                    <button class="rtl-pill" id="rtl-toggle-mobile">
+                        <span class="pill-label">LTR</span>
+                        <span class="pill-circle">L</span>
+                    </button>
+                </div>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> Login</a>
+            </li>
+        </ul></nav>
+        <div class="header-actions">
+            <button class="btn-icon" id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                <span class="pill-label">LTR</span>
+                <span class="pill-circle">L</span>
+            </button>
+            <a href="login.html" class="btn btn-primary" style="padding:.6rem 1.2rem;font-size:.9rem;"><i class="fas fa-user"></i> Login</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <h1>Our Story &amp; Team</h1>
+        <p>Driven by passion, guided by trust — the people and values behind DriveFree.</p>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="story-section">
+        <div class="section-container">
+            <div class="story-grid">
+                <div class="story-image" data-aos>
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=700&q=80" alt="Our Story">
+                </div>
+                <div class="story-content" data-aos>
+                    <h2>How It All Started</h2>
+                    <p>DriveFree was born in 2018 in the heart of Mumbai, when our founder Vikram Nair struggled to find a reliable, affordable self-drive rental service for a family road trip. Tired of opaque pricing and poor vehicle quality, he set out to build something better.</p>
+                    <p>Starting with just 5 vehicles in a single garage, DriveFree has grown into a trusted fleet of 40+ premium vehicles operating across 12 cities in Maharashtra and beyond. Our secret? We treat every rental like we are handing the keys to a family member.</p>
+                    <p>Today, DriveFree serves over 5,000 happy customers and is the go-to choice for weekend getaways, business trips, and everything in between.</p>
+                    <div class="story-milestones">
+                        <div class="milestone"><h3>2018</h3><p>Founded with 5 cars</p></div>
+                        <div class="milestone"><h3>12+</h3><p>Cities covered</p></div>
+                        <div class="milestone"><h3>40+</h3><p>Premium vehicles</p></div>
+                        <div class="milestone"><h3>5K+</h3><p>Happy customers</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION & VISION -->
+    <section class="mission-section">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Mission &amp; Vision</h2>
+                <p>The principles that guide every decision we make</p>
+            </div>
+            <div class="mv-grid" data-aos>
+                <div class="mv-card mission">
+                    <div class="mv-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>To make self-drive car rentals accessible, affordable, and enjoyable for every Indian traveller — by providing a transparent, technology-powered rental experience backed by a well-maintained fleet and exceptional customer service.</p>
+                </div>
+                <div class="mv-card vision">
+                    <div class="mv-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>To become India's most trusted self-drive rental brand by 2030, empowering millions of people to discover the country on their own terms — with safety, confidence, and freedom at every turn of the road.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR TEAM -->
+    <section class="team-section">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Meet Our Team</h2>
+                <p>The passionate individuals behind DriveFree's success</p>
+            </div>
+            <div class="grid-4" data-aos>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Vikram Nair">
+                    <div class="team-card-body">
+                        <h3>Vikram Nair</h3>
+                        <div class="role">Founder &amp; CEO</div>
+                        <p>Visionary leader who turned a personal frustration into a thriving business.</p>
+                        <div class="team-socials">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80" alt="Ananya Joshi">
+                    <div class="team-card-body">
+                        <h3>Ananya Joshi</h3>
+                        <div class="role">Head of Operations</div>
+                        <p>Ensures every fleet vehicle is in top condition and every booking runs smoothly.</p>
+                        <div class="team-socials">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Rahul Patil">
+                    <div class="team-card-body">
+                        <h3>Rahul Patil</h3>
+                        <div class="role">CTO</div>
+                        <p>Built the tech platform that powers seamless bookings and the customer dashboard.</p>
+                        <div class="team-socials">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Priya Shah">
+                    <div class="team-card-body">
+                        <h3>Priya Shah</h3>
+                        <div class="role">Customer Success Lead</div>
+                        <p>Dedicated to making every customer interaction delightful and memorable.</p>
+                        <div class="team-socials">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section class="achievements-section">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2 style="color:white">Our Achievements</h2>
+                <p style="color:#93c5fd">Numbers that tell the DriveFree story</p>
+            </div>
+            <div class="ach-grid" data-aos>
+                <div class="ach-card"><div class="ach-icon"><i class="fas fa-users"></i></div><h3>5,000+</h3><p>Happy Customers</p></div>
+                <div class="ach-card"><div class="ach-icon"><i class="fas fa-car"></i></div><h3>40+</h3><p>Premium Vehicles</p></div>
+                <div class="ach-card"><div class="ach-icon"><i class="fas fa-map-marker-alt"></i></div><h3>12</h3><p>Cities Served</p></div>
+                <div class="ach-card"><div class="ach-icon"><i class="fas fa-award"></i></div><h3>4.8★</h3><p>Average Rating</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNERS -->
+    <section class="partners-section">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Our Partners &amp; Affiliations</h2>
+                <p>Trusted by leading organisations across the country</p>
+            </div>
+            <div class="partners-grid" data-aos>
+                <div class="partner-logo"><i class="fas fa-building"></i> HDFC Bank</div>
+                <div class="partner-logo"><i class="fas fa-plane"></i> IndiGo Airlines</div>
+                <div class="partner-logo"><i class="fas fa-hotel"></i> OYO Hotels</div>
+                <div class="partner-logo"><i class="fas fa-shield-alt"></i> ICICI Lombard</div>
+                <div class="partner-logo"><i class="fas fa-briefcase"></i> TCS Corporate</div>
+                <div class="partner-logo"><i class="fas fa-car-side"></i> Maruti Suzuki</div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size:1.4rem; color:var(--primary-color); display:flex; align-items:center; gap:8px;"><i class="fas fa-car"></i> DriveFree</h4>
+                <p style="margin-top:0.75rem; line-height:1.7;">Your trusted partner for self-drive car rentals. Explore the region on your own terms with our premium, well-maintained fleet.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="fleet.html">Our Fleet</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Vehicle Types</h4>
+                <ul>
+                    <li><a href="fleet.html">Economy Cars</a></li>
+                    <li><a href="fleet.html">Sedans</a></li>
+                    <li><a href="fleet.html">SUVs</a></li>
+                    <li><a href="fleet.html">Luxury Cars</a></li>
+                    <li><a href="fleet.html">MUVs / Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary-color)"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary-color)"></i> info@drivefree.in</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Bandra West, Mumbai 400050</p>
+                <p style="margin-top:1rem;"><i class="fas fa-clock" style="color:var(--primary-color)"></i> 7AM – 10PM, All Days</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DriveFree. All rights reserved. | <a href="#" style="color:var(--primary-color)">Privacy Policy</a> | <a href="#" style="color:var(--primary-color)">Terms &amp; Conditions</a></p>
+        </div>
+    </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

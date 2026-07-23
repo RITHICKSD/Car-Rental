@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DriveFree Home – Featured rentals, daily pricing, and reasons to choose us for your self-drive journey.">
+    <title>DriveFree | Home 2 – Featured Rentals & Pricing</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        [data-aos] { opacity:0; transform:translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        [data-aos].aos-visible { opacity:1; transform:translateY(0); }
+        .main-header.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .nav-link.active-link { color: var(--primary-color); }
+
+        /* HERO 2 */
+        .hero2 {
+            min-height: 100vh;
+            background: linear-gradient(160deg, #0f172a 0%, #312e81 60%, #4338ca 100%);
+            display: flex; align-items: center;
+            padding: 6rem 2rem 3rem;
+            position: relative; overflow: hidden;
+        }
+        .hero2::after {
+            content:'';
+            position:absolute; bottom:-50px; left:-50px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero2-container {
+            max-width:1200px; margin:0 auto;
+            display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;
+        }
+        .hero2-content h1 { font-size:3.2rem; font-weight:800; color:#fff; line-height:1.2; margin-bottom:1rem; }
+        .hero2-content h1 span { color:#a5b4fc; }
+        .hero2-content p { color:#a5b4fc; font-size:1.1rem; margin-bottom:2rem; }
+        .hero2-features { display:flex; flex-direction:column; gap:0.75rem; margin-bottom:2rem; }
+        .hero2-feature { display:flex; align-items:center; gap:0.75rem; color:#c7d2fe; }
+        .hero2-feature i { color:#818cf8; font-size:1.1rem; }
+        .hero2-cards { display:flex; flex-direction:column; gap:1.2rem; }
+        .mini-vehicle-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius:16px; padding:1.25rem;
+            display:flex; align-items:center; gap:1.25rem;
+            transition: all 0.3s;
+        }
+        .mini-vehicle-card:hover { background: rgba(255,255,255,0.14); transform:translateX(5px); }
+        .mini-vehicle-card img { width:100px; height:65px; object-fit:cover; border-radius:10px; }
+        .mini-card-info h4 { color:white; font-weight:700; }
+        .mini-card-info p { color:#a5b4fc; font-size:0.85rem; }
+        .mini-card-price { margin-left:auto; color:#a5b4fc; font-weight:700; white-space:nowrap; }
+
+        /* FEATURED RENTALS */
+        .featured-section { padding:5rem 2rem; background:var(--bg-color); }
+        .featured-card {
+            background:var(--surface-color); border-radius:16px;
+            border:1px solid var(--border-color); overflow:hidden; transition:all 0.3s;
+            display:flex; flex-direction:column;
+        }
+        .featured-card:hover { transform:translateY(-8px); box-shadow:var(--card-shadow); }
+        .featured-card img { width:100%; height:200px; object-fit:cover; }
+        .featured-card-body { padding:1.5rem; display:flex; flex-direction:column; flex:1; }
+        .featured-card-body h3 { font-weight:700; margin-bottom:0.5rem; }
+        .featured-meta { display:flex; gap:0.6rem 1rem; margin:0.75rem 0; flex-wrap:wrap; }
+        .featured-meta span { font-size:0.85rem; color:var(--text-muted); display:flex; align-items:center; gap:0.4rem; }
+        .featured-meta i { color:var(--primary-color); }
+        .featured-card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:1rem; }
+        .featured-price { font-size:1.4rem; font-weight:800; color:var(--primary-color); }
+        .featured-price span { font-size:0.85rem; font-weight:500; color:var(--text-muted); }
+
+        /* PRICING SECTION */
+        .pricing-section { padding:5rem 2rem; background:var(--surface-color); }
+        .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top:3rem; }
+        .pricing-card {
+            border:2px solid var(--border-color); border-radius:20px; padding:2.5rem 2rem; text-align:center;
+            transition:all 0.3s; position:relative;
+        }
+        .pricing-card.featured-plan {
+            border-color:var(--primary-color);
+            background:linear-gradient(135deg, rgba(37,99,235,0.08), rgba(99,102,241,0.08));
+        }
+        .popular-badge {
+            position:absolute; top:-15px; left:50%; transform:translateX(-50%);
+            background:var(--primary-color); color:white; padding:0.3rem 1.2rem; border-radius:20px; font-size:0.8rem; font-weight:700;
+        }
+        .pricing-card:hover { box-shadow:var(--card-shadow); transform:translateY(-5px); }
+        .pricing-icon { font-size:2.5rem; color:var(--primary-color); margin-bottom:1rem; }
+        .pricing-card h3 { font-size:1.25rem; font-weight:700; margin-bottom:0.5rem; }
+        .pricing-card .price { font-size:2.5rem; font-weight:800; color:var(--primary-color); margin:1rem 0; }
+        .pricing-card .price span { font-size:1rem; font-weight:500; color:var(--text-muted); }
+        .pricing-features { list-style:none; margin-bottom:2rem; }
+        .pricing-features li { padding:0.6rem 0; border-bottom:1px solid var(--border-color); font-size:0.95rem; color:var(--text-muted); }
+        .pricing-features li i { color:#10b981; margin-right:0.5rem; }
+
+        /* WHY CHOOSE US */
+        .why-section { padding:5rem 2rem; background:var(--bg-color); }
+        .why-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; }
+        .why-image { border-radius:20px; overflow:hidden; box-shadow:var(--card-shadow); }
+        .why-image img { width:100%; display:block; }
+        .why-list { display:flex; flex-direction:column; gap:1.5rem; }
+        .why-item { display:flex; gap:1.25rem; }
+        .why-item-icon {
+            width:55px; height:55px; flex-shrink:0;
+            border-radius:12px;
+            background:rgba(59,130,246,0.12);
+            color:var(--primary-color);
+            display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+        }
+        .why-item h4 { font-weight:700; margin-bottom:0.3rem; }
+        .why-item p { color:var(--text-muted); font-size:0.9rem; }
+
+        /* FAQ */
+        .faq-section { padding:5rem 2rem; background:var(--surface-color); }
+        .faq-list { max-width:800px; margin:2rem auto 0; display:flex; flex-direction:column; gap:1rem; }
+        .faq-item { border:1px solid var(--border-color); border-radius:12px; overflow:hidden; }
+        .faq-question {
+            padding:1.25rem 1.5rem; display:flex; justify-content:space-between; align-items:center;
+            cursor:pointer; font-weight:600; transition:background 0.3s;
+        }
+        .faq-question:hover { background:var(--bg-color); }
+        .faq-question i { transition:transform 0.3s; }
+        .faq-item.open .faq-question i { transform:rotate(180deg); }
+        .faq-answer {
+            max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s;
+            color:var(--text-muted); padding:0 1.5rem;
+        }
+        .faq-item.open .faq-answer { max-height:300px; padding:1rem 1.5rem; }
+
+        /* NEWSLETTER */
+        .newsletter-section {
+            padding:5rem 2rem;
+            background:linear-gradient(135deg, #312e81, #4338ca);
+            text-align:center;
+        }
+        .newsletter-section h2 { color:white; font-size:2.2rem; margin-bottom:0.75rem; }
+        .newsletter-section p { color:#c7d2fe; margin-bottom:2rem; }
+        .newsletter-form { display:flex; max-width:500px; margin:0 auto; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.25); }
+        .newsletter-form input {
+            flex:1; padding:1rem 1.5rem; border:none; outline:none;
+            background:white; font-size:0.95rem;
+        }
+        .newsletter-form button { background:var(--primary-color); color:white; border:none; padding:0 1.5rem; font-weight:700; cursor:pointer; transition:background 0.3s; }
+        .newsletter-form button:hover { background:#1d4ed8; }
+
+        /* FOOTER */
+        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:2rem; margin-bottom:2rem; }
+        .footer-col h4 { font-weight:700; margin-bottom:1rem; }
+        .footer-col p { color:var(--text-muted); font-size:0.9rem; margin-bottom:0.5rem; }
+        .footer-col ul li { margin-bottom:0.5rem; }
+        .footer-col ul li a { color:var(--text-muted); font-size:0.9rem; transition:color 0.3s; }
+        .footer-col ul li a:hover { color:var(--primary-color); }
+        .social-links { display:flex; gap:0.75rem; margin-top:1rem; }
+        .social-links a {
+            width:38px; height:38px; border-radius:50%;
+            background:var(--bg-color); border:1px solid var(--border-color);
+            display:flex; align-items:center; justify-content:center; color:var(--text-muted); transition:all 0.3s;
+        }
+        .social-links a:hover { background:var(--primary-color); color:white; border-color:var(--primary-color); }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .hero2-container{grid-template-columns:1fr;gap:2rem;text-align:center}
+            .hero2-content{order:2}
+            .hero2-cards{order:1}
+            .hero2-features{align-items:center}
+            .hero2-feature{justify-content:center}
+            .pricing-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+            .why-grid{grid-template-columns:1fr;gap:2rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+
+        @media (max-width: 768px) {
+            .hero2{padding:5rem 1.5rem 3rem}
+            .hero2-content h1{font-size:2.2rem}
+            .hero2-content p{font-size:1rem}
+            .hero2-cards{gap:1rem}
+            .mini-vehicle-card{padding:1rem}
+            .mini-vehicle-card img{width:80px;height:55px}
+            .featured-section{padding:3rem 1.5rem}
+            .featured-card img{height:180px}
+            .featured-card-body{padding:1.25rem}
+            .featured-meta{gap:0.5rem 0.75rem}
+            .featured-price{font-size:1.2rem}
+            .pricing-section{padding:3rem 1.5rem}
+            .pricing-grid{grid-template-columns:1fr;gap:1.5rem}
+            .pricing-card{padding:2rem 1.5rem}
+            .pricing-card .price{font-size:2rem}
+            .why-section{padding:3rem 1.5rem}
+            .why-item{gap:1rem}
+            .why-item-icon{width:45px;height:45px;font-size:1.2rem}
+            .faq-section{padding:3rem 1.5rem}
+            .faq-question{padding:1rem 1.25rem;font-size:0.95rem}
+            .faq-answer{padding:0.75rem 1.25rem;font-size:0.9rem}
+            .newsletter-section{padding:3rem 1.5rem}
+            .newsletter-section h2{font-size:1.8rem}
+            .newsletter-form{flex-direction:column}
+            .newsletter-form input{padding:0.85rem 1rem}
+            .newsletter-form button{padding:0.85rem 1.5rem}
+        }
+
+        @media (max-width: 480px) {
+            .hero2{padding:4rem 1rem 2.5rem}
+            .hero2-content h1{font-size:1.8rem}
+            .hero2-content p{font-size:0.9rem}
+            .hero2-features{gap:0.6rem}
+            .hero2-feature{font-size:0.85rem}
+            .mini-vehicle-card{padding:0.85rem;gap:1rem}
+            .mini-vehicle-card img{width:70px;height:50px}
+            .mini-card-info h4{font-size:0.9rem}
+            .mini-card-info p{font-size:0.8rem}
+            .mini-card-price{font-size:0.85rem}
+            .featured-section{padding:2.5rem 1rem}
+            .featured-card img{height:160px}
+            .featured-card-body{padding:1rem}
+            .featured-card-body h3{font-size:1rem}
+            .featured-meta span{font-size:0.8rem}
+            .featured-price{font-size:1.1rem}
+            .featured-price span{font-size:0.75rem}
+            .pricing-section{padding:2.5rem 1rem}
+            .pricing-card{padding:1.5rem 1rem}
+            .pricing-card h3{font-size:1.1rem}
+            .pricing-card .price{font-size:1.75rem}
+            .pricing-features li{font-size:0.85rem;padding:0.5rem 0}
+            .why-section{padding:2.5rem 1rem}
+            .why-item{gap:0.85rem}
+            .why-item-icon{width:40px;height:40px;font-size:1.1rem}
+            .why-item h4{font-size:0.95rem}
+            .why-item p{font-size:0.85rem}
+            .faq-section{padding:2.5rem 1rem}
+            .faq-question{padding:0.85rem 1rem;font-size:0.9rem}
+            .faq-answer{padding:0.6rem 1rem;font-size:0.85rem}
+            .newsletter-section{padding:2.5rem 1rem}
+            .newsletter-section h2{font-size:1.5rem}
+            .newsletter-section p{font-size:0.9rem}
+            .newsletter-form input{font-size:0.9rem;padding:0.75rem 1rem}
+            .newsletter-form button{padding:0.75rem 1.25rem;font-size:0.9rem}
+            .footer-grid{grid-template-columns:1fr;gap:1.5rem}
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo"><a href="index.html"><h1><i class="fas fa-car"></i> DriveFree</h1></a></div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home <i class="fas fa-chevron-down fa-xs"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html">Home 1</a></li>
+                        <li><a href="home2.html">Home 2</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item">
+                    <a href="services.html" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item"><a href="fleet.html" class="nav-link">Our Fleet</a></li>
+                <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Dashboard <i class="fas fa-chevron-down fa-xs"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="user-dashboard.html">User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item mobile-menu-actions">
+                    <div class="mobile-menu-actions-row">
+                        <button class="btn-icon" id="theme-toggle-mobile"><i class="fas fa-moon"></i></button>
+                        <button class="rtl-pill" id="rtl-toggle-mobile">
+                            <span class="pill-label">LTR</span>
+                            <span class="pill-circle">L</span>
+                        </button>
+                    </div>
+                    <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> Login</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <button class="btn-icon" id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                <span class="pill-label">LTR</span>
+                <span class="pill-circle">L</span>
+            </button>
+            <a href="login.html" class="btn btn-primary" style="padding:0.6rem 1.2rem; font-size:0.9rem;"><i class="fas fa-user"></i> Login</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- HERO 2 -->
+    <section class="hero2">
+        <div class="hero2-container">
+            <div class="hero2-content" data-aos>
+                <h1>Find Your Perfect <span>Self-Drive</span> Experience</h1>
+                <p>Hand-picked vehicles with transparent daily pricing. No hidden charges — ever.</p>
+                <div class="hero2-features">
+                    <div class="hero2-feature"><i class="fas fa-check-circle"></i><span>Free cancellation up to 24 hours</span></div>
+                    <div class="hero2-feature"><i class="fas fa-check-circle"></i><span>Zero deposit for verified customers</span></div>
+                    <div class="hero2-feature"><i class="fas fa-check-circle"></i><span>Roadside assistance 24/7</span></div>
+                </div>
+                <a href="fleet.html" class="btn btn-primary"><i class="fas fa-car"></i> Browse All Vehicles</a>
+            </div>
+            <div class="hero2-cards" data-aos>
+                <div class="mini-vehicle-card">
+                    <img src="m1.jpg" alt="Economy">
+                    <div class="mini-card-info"><h4>Maruti Swift</h4><p>Economy · 2 bags · AC</p></div>
+                    <span class="mini-card-price">₹799/day</span>
+                </div>
+                <div class="mini-vehicle-card">
+                    <img src="m2.jpg" alt="Sedan">
+                    <div class="mini-card-info"><h4>Honda City</h4><p>Sedan · 3 bags · Sunroof</p></div>
+                    <span class="mini-card-price">₹1,299/day</span>
+                </div>
+                <div class="mini-vehicle-card">
+                    <img src="m3.jpg" alt="SUV">
+                    <div class="mini-card-info"><h4>Mahindra XUV700</h4><p>SUV · 5 bags · ADAS</p></div>
+                    <span class="mini-card-price">₹2,199/day</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED RENTALS -->
+    <section class="featured-section" id="featured">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Featured Rentals</h2>
+                <p>Top picks this week — hand-curated for the best experience</p>
+            </div>
+            <div class="grid-3">
+                <div class="featured-card" data-aos>
+                    <img src="h1.jpg" alt="Hyundai Creta">
+                    <div class="featured-card-body">
+                        <h3>Hyundai Creta</h3>
+                        <div class="featured-meta">
+                            <span><i class="fas fa-users"></i> 5 Seats</span>
+                            <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-snowflake"></i> AC</span>
+                        </div>
+                        <div class="featured-card-footer">
+                            <div class="featured-price">₹1,699 <span>/day</span></div>
+                            <a href="fleet.html" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="featured-card" data-aos>
+                    <img src="h2.jpg" alt="Mercedes C-Class">
+                    <div class="featured-card-body">
+                        <h3>Mercedes C-Class</h3>
+                        <div class="featured-meta">
+                            <span><i class="fas fa-users"></i> 5 Seats</span>
+                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-wifi"></i> Wi-Fi</span>
+                        </div>
+                        <div class="featured-card-footer">
+                            <div class="featured-price">₹4,999 <span>/day</span></div>
+                            <a href="fleet.html" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="featured-card" data-aos>
+                    <img src="h3.jpg" alt="Tata Safari">
+                    <div class="featured-card-body">
+                        <h3>Tata Safari</h3>
+                        <div class="featured-meta">
+                            <span><i class="fas fa-users"></i> 7 Seats</span>
+                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                            <span><i class="fas fa-cog"></i> Manual</span>
+                            <span><i class="fas fa-snowflake"></i> AC</span>
+                        </div>
+                        <div class="featured-card-footer">
+                            <div class="featured-price">₹1,999 <span>/day</span></div>
+                            <a href="fleet.html" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAILY PRICING PLANS -->
+    <section class="pricing-section" id="pricing">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Daily Pricing Plans</h2>
+                <p>Honest, transparent pricing for every type of traveller</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card" data-aos>
+                    <div class="pricing-icon"><i class="fas fa-car-side"></i></div>
+                    <h3>Economy</h3>
+                    <div class="price">₹799 <span>/day</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Hatchback / Mini Cars</li>
+                        <li><i class="fas fa-check"></i> 200 km/day included</li>
+                        <li><i class="fas fa-check"></i> Basic Insurance</li>
+                        <li><i class="fas fa-check"></i> Roadside Assistance</li>
+                        <li><i class="fas fa-check"></i> 24/7 Support</li>
+                    </ul>
+                    <a href="fleet.html" class="btn btn-primary" style="width:100%">Choose Plan</a>
+                </div>
+                <div class="pricing-card featured-plan" data-aos>
+                    <span class="popular-badge">Most Popular</span>
+                    <div class="pricing-icon"><i class="fas fa-car"></i></div>
+                    <h3>Standard</h3>
+                    <div class="price">₹1,499 <span>/day</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Sedans &amp; Compact SUVs</li>
+                        <li><i class="fas fa-check"></i> 300 km/day included</li>
+                        <li><i class="fas fa-check"></i> Comprehensive Insurance</li>
+                        <li><i class="fas fa-check"></i> Roadside Assistance</li>
+                        <li><i class="fas fa-check"></i> Priority Support</li>
+                    </ul>
+                    <a href="fleet.html" class="btn btn-primary" style="width:100%">Choose Plan</a>
+                </div>
+                <div class="pricing-card" data-aos>
+                    <div class="pricing-icon"><i class="fas fa-gem"></i></div>
+                    <h3>Premium</h3>
+                    <div class="price">₹3,999 <span>/day</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Luxury &amp; Premium SUVs</li>
+                        <li><i class="fas fa-check"></i> Unlimited km</li>
+                        <li><i class="fas fa-check"></i> Zero Deductible Insurance</li>
+                        <li><i class="fas fa-check"></i> Concierge Support</li>
+                        <li><i class="fas fa-check"></i> Airport Delivery</li>
+                    </ul>
+                    <a href="fleet.html" class="btn btn-primary" style="width:100%">Choose Plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="why-section" id="why">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Why Choose DriveFree?</h2>
+                <p>We go beyond just renting cars — we create memorable driving experiences</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-image" data-aos>
+                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80" alt="Driving Experience">
+                </div>
+                <div class="why-list" data-aos>
+                    <div class="why-item">
+                        <div class="why-item-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div><h4>Fully Insured Fleet</h4><p>Every vehicle carries comprehensive insurance so you drive with peace of mind.</p></div>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-item-icon"><i class="fas fa-rupee-sign"></i></div>
+                        <div><h4>No Hidden Charges</h4><p>What you see is what you pay. Transparent billing every time.</p></div>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-item-icon"><i class="fas fa-tools"></i></div>
+                        <div><h4>Well-Maintained Vehicles</h4><p>Regular servicing &amp; sanitization after every rental ensures top quality.</p></div>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-item-icon"><i class="fas fa-headset"></i></div>
+                        <div><h4>24/7 Customer Support</h4><p>Broke down? Need help? Our team is just one call away — always.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Frequently Asked Questions</h2>
+                <p>Got questions? We have answers.</p>
+            </div>
+            <div class="faq-list" data-aos>
+                <div class="faq-item">
+                    <div class="faq-question">What documents do I need to rent a car? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">You need a valid Indian driving license, Aadhaar/PAN card for identity proof, and a credit/debit card for payment. International customers need a passport and an IDP.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I extend my rental period? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Yes! Log in to your customer dashboard and submit an extension request. Subject to vehicle availability, we process extensions within a few hours.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is fuel included in the rental price? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">No, our rentals follow a full-to-full fuel policy. You receive the car with a full tank and return it with a full tank. This keeps things simple and fair.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What happens if the car breaks down? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Call our 24/7 helpline immediately. We will dispatch roadside assistance and arrange a replacement vehicle if needed, at no extra charge.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I drive the car outside my home state? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Yes, with prior approval. Additional interstate permits may apply and will be arranged by us. Please inform us at the time of booking.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="section-container" data-aos>
+            <h2>Stay in the Driver's Seat</h2>
+            <p>Subscribe to get exclusive deals, new vehicle alerts, and travel tips delivered to your inbox.</p>
+            <form class="newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email address...">
+                <button type="submit"><i class="fas fa-paper-plane"></i> Subscribe</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size:1.4rem; color:var(--primary-color); display:flex; align-items:center; gap:8px;"><i class="fas fa-car"></i> DriveFree</h4>
+                <p style="margin-top:0.75rem; line-height:1.7;">Your trusted partner for self-drive car rentals. Explore the region on your own terms with our premium, well-maintained fleet.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="fleet.html">Our Fleet</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Vehicle Types</h4>
+                <ul>
+                    <li><a href="fleet.html">Economy Cars</a></li>
+                    <li><a href="fleet.html">Sedans</a></li>
+                    <li><a href="fleet.html">SUVs</a></li>
+                    <li><a href="fleet.html">Luxury Cars</a></li>
+                    <li><a href="fleet.html">MUVs / Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary-color)"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary-color)"></i> info@drivefree.in</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Bandra West, Mumbai 400050</p>
+                <p style="margin-top:1rem;"><i class="fas fa-clock" style="color:var(--primary-color)"></i> 7AM – 10PM, All Days</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DriveFree. All rights reserved. | <a href="#" style="color:var(--primary-color)">Privacy Policy</a> | <a href="#" style="color:var(--primary-color)">Terms &amp; Conditions</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

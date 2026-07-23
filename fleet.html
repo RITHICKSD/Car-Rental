@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse the DriveFree fleet – Economy, Sedans, SUVs, and Luxury cars with daily pricing and availability.">
+    <title>Our Fleet | DriveFree Car Rental</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        [data-aos]{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}[data-aos].aos-visible{opacity:1;transform:translateY(0)}
+        .main-header.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.15)}.nav-link.active-link{color:var(--primary-color)}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}.footer-col h4{font-weight:700;margin-bottom:1rem}
+        .footer-col p{color:var(--text-muted);font-size:.9rem;margin-bottom:.5rem}.footer-col ul li{margin-bottom:.5rem}
+        .footer-col ul li a{color:var(--text-muted);font-size:.9rem;transition:color .3s}.footer-col ul li a:hover{color:var(--primary-color)}
+        .social-links{display:flex;gap:.75rem;margin-top:1rem}.social-links a{width:38px;height:38px;border-radius:50%;background:var(--bg-color);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .3s}.social-links a:hover{background:var(--primary-color);color:white;border-color:var(--primary-color)}
+        .page-hero{padding:7rem 2rem 4rem;background:linear-gradient(135deg,rgba(15,23,42,0.75) 0%,rgba(30,58,138,0.75) 100%),url('flee.jpg') center/cover no-repeat;text-align:center}
+        .page-hero h1{font-size:3rem;font-weight:800;color:white;margin-bottom:1rem}.page-hero p{color:#93c5fd;font-size:1.1rem;max-width:600px;margin:0 auto}
+        .breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.9rem}.breadcrumb a{color:#93c5fd}.breadcrumb span{color:#64748b}
+
+        /* Filter & Search */
+        .filter-section{padding:2.5rem 2rem;background:var(--surface-color);border-bottom:1px solid var(--border-color)}
+        .filter-container{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+        .filter-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+        .filter-btn{padding:.6rem 1.4rem;border-radius:25px;border:2px solid var(--border-color);background:transparent;color:var(--text-muted);font-weight:600;cursor:pointer;transition:all .3s;font-size:.9rem}
+        .filter-btn:hover,.filter-btn.active{background:var(--primary-color);border-color:var(--primary-color);color:white}
+        .filter-search{display:flex;gap:.75rem;align-items:center}
+        .filter-search input{padding:.65rem 1rem;border:1px solid var(--border-color);border-radius:8px;background:var(--bg-color);color:var(--text-color);outline:none;transition:all .3s;font-size:.9rem}
+        .filter-search input:focus{border-color:var(--primary-color)}
+        .filter-search select{padding:.65rem 1rem;border:1px solid var(--border-color);border-radius:8px;background:var(--bg-color);color:var(--text-color);outline:none;font-size:.9rem}
+
+        /* Vehicle Grid */
+        .fleet-section{padding:4rem 2rem;background:var(--bg-color)}
+        .fleet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto}
+        .vehicle-card{background:var(--surface-color);border-radius:16px;overflow:hidden;border:1px solid var(--border-color);transition:all .3s}
+        .vehicle-card:hover{transform:translateY(-8px);box-shadow:var(--card-shadow)}
+        .vehicle-img-wrap{position:relative;overflow:hidden}
+        .vehicle-img-wrap img{width:100%;height:200px;object-fit:cover;transition:transform .4s}
+        .vehicle-card:hover .vehicle-img-wrap img{transform:scale(1.06)}
+        .vehicle-badge{position:absolute;top:12px;left:12px;padding:.3rem .8rem;border-radius:20px;font-size:.8rem;font-weight:700}
+        .badge-available{background:rgba(16,185,129,.9);color:white}
+        .badge-rented{background:rgba(239,68,68,.9);color:white}
+        .badge-featured{background:rgba(245,158,11,.9);color:white}
+        .vehicle-body{padding:1.25rem}
+        .vehicle-body h3{font-weight:700;margin-bottom:.25rem}
+        .vehicle-category{color:var(--primary-color);font-size:.85rem;font-weight:600;margin-bottom:.75rem}
+        .vehicle-specs{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+        .vehicle-specs span{font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:.35rem}
+        .vehicle-specs i{color:var(--primary-color)}
+        .vehicle-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border-color);padding-top:1rem}
+        .vehicle-price{font-size:1.3rem;font-weight:800;color:var(--primary-color)}
+        .vehicle-price span{font-size:.8rem;font-weight:500;color:var(--text-muted)}
+        .btn-sm{padding:.5rem 1rem;font-size:.85rem;border-radius:8px}
+
+        /* Section titles within fleet */
+        .fleet-cat-title{max-width:1200px;margin:2.5rem auto .5rem;padding:0 2rem;font-size:1.5rem;font-weight:800;color:var(--text-color);display:flex;align-items:center;gap:.75rem}
+        .fleet-cat-title i{color:var(--primary-color)}
+
+        /* Booking CTA */
+        .book-cta{padding:5rem 2rem;background:linear-gradient(135deg,#1e3a8a,#4338ca);text-align:center}
+        .book-cta h2{color:white;font-size:2.2rem;margin-bottom:1rem}
+        .book-cta p{color:#c7d2fe;margin-bottom:2rem;font-size:1.05rem}
+        .cta-buttons{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+        .btn-white{background:white;color:var(--primary-color);padding:.85rem 2rem;border-radius:8px;font-weight:700;border:none;cursor:pointer;transition:all .3s}
+        .btn-white:hover{transform:scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,.2)}
+        .btn-outline-w{background:transparent;border:2px solid white;color:white;padding:.85rem 2rem;border-radius:8px;font-weight:700;cursor:pointer;transition:all .3s}
+        .btn-outline-w:hover{background:white;color:var(--primary-color)}
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .filter-container{flex-direction:column;align-items:stretch;gap:1.5rem}
+            .filter-btns{justify-content:center}
+            .filter-search{justify-content:center;width:100%}
+            .filter-search input{flex:1}
+            .fleet-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+
+        @media (max-width: 768px) {
+            .page-hero{padding:5rem 1.5rem 3rem}
+            .page-hero h1{font-size:2.2rem}
+            .page-hero p{font-size:1rem}
+            .filter-section{padding:2rem 1.5rem}
+            .filter-btns{gap:0.5rem}
+            .filter-btn{padding:0.5rem 1rem;font-size:0.85rem}
+            .filter-search{flex-direction:column}
+            .filter-search input,.filter-search select{width:100%}
+            .fleet-section{padding:3rem 1.5rem}
+            .fleet-grid{grid-template-columns:1fr;gap:1.5rem}
+            .vehicle-img-wrap img{height:180px}
+            .vehicle-body{padding:1rem}
+            .vehicle-specs{gap:0.75rem}
+            .vehicle-specs span{font-size:0.75rem}
+            .vehicle-price{font-size:1.1rem}
+            .fleet-cat-title{padding:0 1.5rem;font-size:1.3rem}
+            .book-cta{padding:3rem 1.5rem}
+            .book-cta h2{font-size:1.8rem}
+            .book-cta p{font-size:1rem}
+            .cta-buttons{flex-direction:column}
+            .cta-buttons .btn{width:100%}
+        }
+
+        @media (max-width: 480px) {
+            .page-hero h1{font-size:1.8rem}
+            .page-hero p{font-size:0.9rem}
+            .filter-section{padding:1.5rem 1rem}
+            .filter-btns{flex-wrap:wrap}
+            .filter-btn{padding:0.45rem 0.85rem;font-size:0.8rem}
+            .fleet-section{padding:2.5rem 1rem}
+            .vehicle-img-wrap img{height:160px}
+            .vehicle-body{padding:0.85rem}
+            .vehicle-body h3{font-size:1rem}
+            .vehicle-category{font-size:0.8rem}
+            .vehicle-price{font-size:1rem}
+            .vehicle-price span{font-size:0.75rem}
+            .btn-sm{padding:0.45rem 0.85rem;font-size:0.8rem}
+            .fleet-cat-title{padding:0 1rem;font-size:1.1rem}
+            .book-cta{padding:2.5rem 1rem}
+            .book-cta h2{font-size:1.5rem}
+            .book-cta p{font-size:0.9rem}
+            .btn-white,.btn-outline-w{padding:0.75rem 1.5rem;font-size:0.9rem}
+            .footer-grid{grid-template-columns:1fr;gap:1.5rem}
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo"><a href="index.html"><h1><i class="fas fa-car"></i> DriveFree</h1></a></div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <nav><ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu"><li><a href="index.html">Home 1</a></li><li><a href="home2.html">Home 2</a></li></ul></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+            <li class="nav-item"><a href="fleet.html" class="nav-link">Our Fleet</a></li>
+            <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Dashboard <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="user-dashboard.html">User Dashboard</a></li>
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </li>
+            <li class="nav-item mobile-menu-actions">
+                <div class="mobile-menu-actions-row">
+                    <button class="btn-icon" id="theme-toggle-mobile"><i class="fas fa-moon"></i></button>
+                    <button class="rtl-pill" id="rtl-toggle-mobile">
+                        <span class="pill-label">LTR</span>
+                        <span class="pill-circle">L</span>
+                    </button>
+                </div>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> Login</a>
+            </li>
+        </ul></nav>
+        <div class="header-actions">
+            <button class="btn-icon" id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                <span class="pill-label">LTR</span>
+                <span class="pill-circle">L</span>
+            </button>
+            <a href="login.html" class="btn btn-primary" style="padding:.6rem 1.2rem;font-size:.9rem;"><i class="fas fa-user"></i> Login</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <h1>Our Premium Fleet</h1>
+        <p>40+ meticulously maintained vehicles — every category, every budget, every journey.</p>
+    </section>
+
+    <!-- FILTER -->
+    <section class="filter-section">
+        <div class="filter-container">
+            <div class="filter-btns">
+                <button class="filter-btn active" data-filter="all">All Vehicles</button>
+                <button class="filter-btn" data-filter="economy">Economy</button>
+                <button class="filter-btn" data-filter="sedan">Sedans</button>
+                <button class="filter-btn" data-filter="suv">SUVs</button>
+                <button class="filter-btn" data-filter="luxury">Luxury</button>
+                <button class="filter-btn" data-filter="muv">MUVs</button>
+            </div>
+            <div class="filter-search">
+                <input type="text" placeholder="Search vehicles...">
+                <select><option>Sort: Featured</option><option>Price: Low–High</option><option>Price: High–Low</option></select>
+            </div>
+        </div>
+    </section>
+
+    <!-- ECONOMY CARS -->
+    <p class="fleet-cat-title" data-aos><i class="fas fa-car-side"></i> Economy Cars</p>
+    <section class="fleet-section" style="padding-top:1rem">
+        <div class="fleet-grid">
+            <div class="vehicle-card" data-category="economy" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="m1.jpg" alt="Maruti Swift">
+                    <span class="vehicle-badge badge-available">Available</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Maruti Swift</h3>
+                    <div class="vehicle-category">Economy · Hatchback</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Petrol</span>
+                        <span><i class="fas fa-cog"></i>Manual</span>
+                        <span><i class="fas fa-snowflake"></i>AC</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹799 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-card" data-category="economy" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="hyn.jpg" alt="Hyundai i20">
+                    <span class="vehicle-badge badge-available">Available</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Hyundai i20</h3>
+                    <div class="vehicle-category">Economy · Hatchback</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Petrol</span>
+                        <span><i class="fas fa-cog"></i>Manual</span>
+                        <span><i class="fas fa-snowflake"></i>AC</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹899 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-card" data-category="economy" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="hyn1.jpg" alt="Tata Tiago">
+                    <span class="vehicle-badge badge-featured">Featured</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Tata Tiago EV</h3>
+                    <div class="vehicle-category">Economy · Electric Hatchback</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-bolt"></i>Electric</span>
+                        <span><i class="fas fa-cog"></i>Automatic</span>
+                        <span><i class="fas fa-snowflake"></i>AC</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹999 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEDANS -->
+    <p class="fleet-cat-title" data-aos><i class="fas fa-car"></i> Sedans</p>
+    <section class="fleet-section" style="padding-top:1rem">
+        <div class="fleet-grid">
+            <div class="vehicle-card" data-category="sedan" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="m2.jpg" alt="Honda City">
+                    <span class="vehicle-badge badge-available">Available</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Honda City</h3>
+                    <div class="vehicle-category">Sedan · Premium</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Petrol</span>
+                        <span><i class="fas fa-cog"></i>CVT Auto</span>
+                        <span><i class="fas fa-sun"></i>Sunroof</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹1,299 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-card" data-category="sedan" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="ver.jpg" alt="Hyundai Verna">
+                    <span class="vehicle-badge badge-rented">Rented</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Hyundai Verna</h3>
+                    <div class="vehicle-category">Sedan · Comfort</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Diesel</span>
+                        <span><i class="fas fa-cog"></i>DCT Auto</span>
+                        <span><i class="fas fa-snowflake"></i>Dual AC</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹1,199 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm" style="opacity:.6;pointer-events:none">Unavailable</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-card" data-category="sedan" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="sk.jpg" alt="Skoda Slavia">
+                    <span class="vehicle-badge badge-available">Available</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Skoda Slavia</h3>
+                    <div class="vehicle-category">Sedan · European</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>TSI Turbo</span>
+                        <span><i class="fas fa-cog"></i>DSG Auto</span>
+                        <span><i class="fas fa-sun"></i>Sunroof</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹1,499 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LUXURY -->
+    <p class="fleet-cat-title" data-aos><i class="fas fa-gem"></i> Luxury Cars</p>
+    <section class="fleet-section" style="padding-top:1rem">
+        <div class="fleet-grid">
+            <div class="vehicle-card" data-category="luxury" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="h2.jpg" alt="Mercedes C-Class">
+                    <span class="vehicle-badge badge-available">Available</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Mercedes C-Class</h3>
+                    <div class="vehicle-category">Luxury · Sedan</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Diesel</span>
+                        <span><i class="fas fa-cog"></i>9G-Tronic</span>
+                        <span><i class="fas fa-wifi"></i>Wi-Fi</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹4,999 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-card" data-category="luxury" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="bmw.jpg" alt="BMW 5 Series">
+                    <span class="vehicle-badge badge-featured">Featured</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>BMW 5 Series</h3>
+                    <div class="vehicle-category">Luxury · Business Sedan</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Petrol</span>
+                        <span><i class="fas fa-cog"></i>8-Speed</span>
+                        <span><i class="fas fa-snowflake"></i>4-Zone AC</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹5,999 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-card" data-category="luxury" data-aos>
+                <div class="vehicle-img-wrap">
+                    <img src="rg.jpg" alt="Range Rover Evoque">
+                    <span class="vehicle-badge badge-available">Available</span>
+                </div>
+                <div class="vehicle-body">
+                    <h3>Range Rover Evoque</h3>
+                    <div class="vehicle-category">Luxury · SUV</div>
+                    <div class="vehicle-specs">
+                        <span><i class="fas fa-users"></i>5 Seats</span>
+                        <span><i class="fas fa-gas-pump"></i>Mild Hybrid</span>
+                        <span><i class="fas fa-cog"></i>Automatic</span>
+                        <span><i class="fas fa-wifi"></i>Meridian Audio</span>
+                    </div>
+                    <div class="vehicle-footer">
+                        <div class="vehicle-price">₹7,499 <span>/day</span></div>
+                        <a href="user-dashboard.html" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING CTA -->
+    <section class="book-cta">
+        <div class="section-container" data-aos>
+            <h2>Found Your Perfect Ride?</h2>
+            <p>Log in to your account to check real-time availability and confirm your booking in minutes.</p>
+            <div class="cta-buttons">
+                <a href="user-dashboard.html" class="btn-white"><i class="fas fa-calendar-check"></i> Book Now</a>
+                <a href="contact.html" class="btn-outline-w"><i class="fas fa-headset"></i> Get Help Choosing</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size:1.4rem; color:var(--primary-color); display:flex; align-items:center; gap:8px;"><i class="fas fa-car"></i> DriveFree</h4>
+                <p style="margin-top:0.75rem; line-height:1.7;">Your trusted partner for self-drive car rentals. Explore the region on your own terms with our premium, well-maintained fleet.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="fleet.html">Our Fleet</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Vehicle Types</h4>
+                <ul>
+                    <li><a href="fleet.html">Economy Cars</a></li>
+                    <li><a href="fleet.html">Sedans</a></li>
+                    <li><a href="fleet.html">SUVs</a></li>
+                    <li><a href="fleet.html">Luxury Cars</a></li>
+                    <li><a href="fleet.html">MUVs / Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary-color)"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary-color)"></i> info@drivefree.in</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Bandra West, Mumbai 400050</p>
+                <p style="margin-top:1rem;"><i class="fas fa-clock" style="color:var(--primary-color)"></i> 7AM – 10PM, All Days</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DriveFree. All rights reserved. | <a href="#" style="color:var(--primary-color)">Privacy Policy</a> | <a href="#" style="color:var(--primary-color)">Terms &amp; Conditions</a></p>
+        </div>
+    </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

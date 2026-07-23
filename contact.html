@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact DriveFree – Get in touch for bookings, inquiries, or support. Find our branch locations and send us a message.">
+    <title>Contact Us | DriveFree Car Rental</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        [data-aos]{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}[data-aos].aos-visible{opacity:1;transform:translateY(0)}
+        .main-header.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.15)}.nav-link.active-link{color:var(--primary-color)}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}.footer-col h4{font-weight:700;margin-bottom:1rem}
+        .footer-col p{color:var(--text-muted);font-size:.9rem;margin-bottom:.5rem}.footer-col ul li{margin-bottom:.5rem}
+        .footer-col ul li a{color:var(--text-muted);font-size:.9rem;transition:color .3s}.footer-col ul li a:hover{color:var(--primary-color)}
+        .social-links{display:flex;gap:.75rem;margin-top:1rem}.social-links a{width:38px;height:38px;border-radius:50%;background:var(--bg-color);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .3s}.social-links a:hover{background:var(--primary-color);color:white;border-color:var(--primary-color)}
+        .page-hero{padding:7rem 2rem 4rem;background:linear-gradient(135deg,rgba(15,23,42,0.75) 0%,rgba(30,58,138,0.75) 100%),url('cnt.jpg') center/cover no-repeat;text-align:center}
+        .page-hero h1{font-size:3rem;font-weight:800;color:white;margin-bottom:1rem}.page-hero p{color:#93c5fd;font-size:1.1rem;max-width:600px;margin:0 auto}
+        .breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.9rem}.breadcrumb a{color:#93c5fd}.breadcrumb span{color:#64748b}
+
+        /* Contact Details */
+        .contact-details-section{padding:5rem 2rem;background:var(--bg-color)}
+        .contact-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto}
+        .contact-card{background:var(--surface-color);border:1px solid var(--border-color);border-radius:16px;padding:2rem;text-align:center;transition:all .3s}
+        .contact-card:hover{transform:translateY(-5px);box-shadow:var(--card-shadow);border-color:var(--primary-color)}
+        .contact-icon{width:65px;height:65px;border-radius:50%;background:rgba(59,130,246,.12);color:var(--primary-color);font-size:1.6rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+        .contact-card h3{font-weight:700;margin-bottom:.5rem}
+        .contact-card p{color:var(--text-muted);font-size:.9rem;margin-bottom:.25rem}
+        .contact-card a{color:var(--primary-color);font-weight:600}
+
+        /* Map Section */
+        .map-section{padding:5rem 2rem;background:var(--surface-color)}
+        .map-container{max-width:1200px;margin:0 auto}
+        .map-box{border-radius:20px;overflow:hidden;border:1px solid var(--border-color);box-shadow:var(--card-shadow);height:400px;background:linear-gradient(135deg,#1e3a8a,#2563eb);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:white;text-align:center}
+        .map-box i{font-size:4rem;color:#93c5fd}
+        .map-box h3{font-size:1.3rem}
+        .map-box p{color:#93c5fd;font-size:.95rem}
+        .map-box a{color:white;background:var(--primary-color);padding:.6rem 1.5rem;border-radius:8px;font-weight:600;display:inline-block;margin-top:.5rem;transition:all .3s}
+        .map-box a:hover{background:#1d4ed8}
+
+        /* Send Message */
+        .message-section{padding:5rem 2rem;background:var(--bg-color)}
+        .message-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto;align-items:start}
+        .message-info h2{font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .message-info p{color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem}
+        .info-items{display:flex;flex-direction:column;gap:1rem}
+        .info-item{display:flex;gap:1rem;align-items:flex-start}
+        .info-item-icon{width:45px;height:45px;border-radius:10px;background:rgba(59,130,246,.1);color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+        .info-item h4{font-weight:600;margin-bottom:.2rem}
+        .info-item p{color:var(--text-muted);font-size:.9rem;margin:0}
+        .message-form{background:var(--surface-color);border:1px solid var(--border-color);border-radius:20px;padding:2.5rem;box-shadow:var(--shadow)}
+        .form-group{margin-bottom:1.25rem}
+        .form-group label{display:block;font-weight:600;font-size:.9rem;margin-bottom:.4rem;color:var(--text-color)}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:.8rem 1rem;border:1px solid var(--border-color);border-radius:8px;background:var(--bg-color);color:var(--text-color);font-size:.95rem;outline:none;transition:all .3s;font-family:inherit}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary-color);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+        .form-group textarea{resize:vertical;min-height:120px}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+        #contact-msg{margin-top:1rem;font-weight:600;color:#10b981}
+
+        /* Branch Offices */
+        .branches-section{padding:5rem 2rem;background:var(--surface-color)}
+        .branches-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:2rem auto 0}
+        .branch-card{border:1px solid var(--border-color);border-radius:16px;padding:2rem;transition:all .3s;background:var(--bg-color)}
+        .branch-card:hover{transform:translateY(-4px);box-shadow:var(--card-shadow);border-color:var(--primary-color)}
+        .branch-card h3{font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+        .branch-card h3 i{color:var(--primary-color)}
+        .branch-card p{color:var(--text-muted);font-size:.9rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+        .branch-card p i{color:var(--primary-color);font-size:.85rem}
+        .branch-status{display:inline-block;padding:.3rem .8rem;border-radius:20px;font-size:.8rem;font-weight:700;margin-top:.75rem}
+        .status-open{background:rgba(16,185,129,.12);color:#10b981}
+        .status-busy{background:rgba(245,158,11,.12);color:#f59e0b}
+
+        /* Social Links Section */
+        .social-section{padding:4rem 2rem;background:var(--bg-color)}
+        .social-large{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:2rem}
+        .social-large-btn{display:flex;align-items:center;gap:.75rem;padding:1rem 2rem;border-radius:12px;font-weight:700;font-size:1rem;transition:all .3s;border:2px solid var(--border-color);color:var(--text-color);background:var(--surface-color)}
+        .social-large-btn:hover{transform:translateY(-3px);box-shadow:var(--card-shadow)}
+        .social-large-btn.fb:hover{border-color:#1877f2;color:#1877f2}
+        .social-large-btn.ig:hover{border-color:#e4405f;color:#e4405f}
+        .social-large-btn.tw:hover{border-color:#1da1f2;color:#1da1f2}
+        .social-large-btn.wa:hover{border-color:#25d366;color:#25d366}
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .contact-cards{grid-template-columns:1fr;gap:1.5rem}
+            .message-grid{grid-template-columns:1fr;gap:2rem}
+            .branches-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+
+        @media (max-width: 768px) {
+            .page-hero{padding:5rem 1.5rem 3rem}
+            .page-hero h1{font-size:2.2rem}
+            .page-hero p{font-size:1rem}
+            .contact-details-section{padding:3rem 1.5rem}
+            .map-section{padding:3rem 1.5rem}
+            .message-section{padding:3rem 1.5rem}
+            .branches-section{padding:3rem 1.5rem}
+            .social-section{padding:3rem 1.5rem}
+            .contact-card{padding:1.5rem}
+            .contact-icon{width:55px;height:55px;font-size:1.4rem}
+            .map-box{height:300px}
+            .map-box i{font-size:3rem}
+            .message-form{padding:1.5rem}
+            .form-row{grid-template-columns:1fr;gap:0.75rem}
+            .branches-grid{grid-template-columns:1fr;gap:1rem}
+            .branch-card{padding:1.5rem}
+            .social-large{gap:1rem}
+            .social-large-btn{padding:0.8rem 1.5rem;font-size:0.9rem}
+        }
+
+        @media (max-width: 480px) {
+            .page-hero h1{font-size:1.8rem}
+            .page-hero p{font-size:0.9rem}
+            .contact-details-section,.map-section,.message-section,.branches-section,.social-section{padding:2.5rem 1rem}
+            .contact-card{padding:1.25rem}
+            .contact-icon{width:50px;height:50px;font-size:1.3rem}
+            .contact-card h3{font-size:1.1rem}
+            .contact-card p{font-size:0.85rem}
+            .map-box{height:250px}
+            .map-box i{font-size:2.5rem}
+            .map-box h3{font-size:1.1rem}
+            .map-box p{font-size:0.85rem}
+            .message-info h2{font-size:1.5rem}
+            .message-info p{font-size:0.9rem}
+            .message-form{padding:1.25rem}
+            .form-group label{font-size:0.85rem}
+            .form-group input,.form-group select,.form-group textarea{font-size:0.9rem;padding:0.7rem 0.9rem}
+            .info-item{gap:0.75rem}
+            .info-item-icon{width:40px;height:40px;font-size:1rem}
+            .info-item h4{font-size:0.95rem}
+            .info-item p{font-size:0.85rem}
+            .branch-card{padding:1.25rem}
+            .branch-card h3{font-size:1rem}
+            .branch-card p{font-size:0.85rem}
+            .social-large-btn{padding:0.75rem 1.25rem;font-size:0.85rem;gap:0.5rem}
+            .footer-grid{grid-template-columns:1fr;gap:1.5rem}
+        }
+    </style>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo"><a href="index.html"><h1><i class="fas fa-car"></i> DriveFree</h1></a></div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <nav><ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu"><li><a href="index.html">Home 1</a></li><li><a href="home2.html">Home 2</a></li></ul></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+            <li class="nav-item"><a href="fleet.html" class="nav-link">Our Fleet</a></li>
+            <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Dashboard <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="user-dashboard.html">User Dashboard</a></li>
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </li>
+            <li class="nav-item mobile-menu-actions">
+                <div class="mobile-menu-actions-row">
+                    <button class="btn-icon" id="theme-toggle-mobile"><i class="fas fa-moon"></i></button>
+                    <button class="rtl-pill" id="rtl-toggle-mobile">
+                        <span class="pill-label">LTR</span>
+                        <span class="pill-circle">L</span>
+                    </button>
+                </div>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> Login</a>
+            </li>
+        </ul></nav>
+        <div class="header-actions">
+            <button class="btn-icon" id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                <span class="pill-label">LTR</span>
+                <span class="pill-circle">L</span>
+            </button>
+            <a href="login.html" class="btn btn-primary" style="padding:.6rem 1.2rem;font-size:.9rem;"><i class="fas fa-user"></i> Login</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <h1>Get in Touch</h1>
+        <p>We are here to help with any questions, bookings, or support needs. Reach us your way.</p>
+    </section>
+
+    <!-- CONTACT DETAILS -->
+    <section class="contact-details-section">
+        <div class="contact-cards" data-aos>
+            <div class="contact-card">
+                <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                <h3>Call Us</h3>
+                <p>Available 7AM – 10PM daily</p>
+                <a href="tel:+919876543210">+91 98765 43210</a>
+                <p style="margin-top:.4rem;">Emergency: <a href="tel:+919876500000">+91 98765 00000</a></p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <h3>Email Us</h3>
+                <p>We respond within 2–4 hours</p>
+                <a href="mailto:info@drivefree.in">info@drivefree.in</a>
+                <p style="margin-top:.4rem;"><a href="mailto:support@drivefree.in">support@drivefree.in</a></p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3>Visit Us</h3>
+                <p>Head Office</p>
+                <a href="#">Unit 4B, Bandra Kurla Complex</a>
+                <p style="margin-top:.4rem;color:var(--text-muted);font-size:.9rem;">Bandra West, Mumbai 400050</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section class="map-section">
+        <div class="map-container">
+            <div class="section-title" data-aos style="margin-bottom:2rem;text-align:center">
+                <h2>Our Location</h2>
+                <p>Find us on the map or get directions to our nearest branch</p>
+            </div>
+            <div data-aos style="border-radius:20px;overflow:hidden;border:1px solid var(--border-color);box-shadow:var(--card-shadow)">
+                <div id="leaflet-map" style="height:450px;width:100%;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEND A MESSAGE -->
+    <section class="message-section">
+        <div class="message-grid">
+            <div class="message-info" data-aos>
+                <h2>Send Us a Message</h2>
+                <p>Have a question about our fleet, pricing, or services? Fill out the form and our team will get back to you promptly.</p>
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="info-item-icon"><i class="fas fa-clock"></i></div>
+                        <div><h4>Response Time</h4><p>We aim to respond within 2–4 hours on working days.</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-item-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div><h4>Your Privacy</h4><p>Your data is safe with us. We never share your information with third parties.</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-item-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div><h4>Prefer WhatsApp?</h4><p>Chat with us directly for instant replies.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div data-aos>
+                <form class="message-form" id="contact-form" onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group"><label for="c-name">Full Name</label><input type="text" id="c-name" placeholder="Rahul Kulkarni"></div>
+                        <div class="form-group"><label for="c-email">Email Address</label><input type="email" id="c-email" placeholder="rahul@email.com"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label for="c-phone">Phone Number</label><input type="tel" id="c-phone" placeholder="+91 98765 43210"></div>
+                        <div class="form-group"><label for="c-subject">Subject</label>
+                            <select id="c-subject">
+                                <option>Booking Enquiry</option>
+                                <option>Extension Request</option>
+                                <option>Corporate Rentals</option>
+                                <option>Feedback</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="c-message">Your Message</label><textarea id="c-message" placeholder="Tell us how we can help..."></textarea></div>
+                    <button class="btn btn-primary" style="width:100%" onclick="document.getElementById('contact-msg').textContent='✔ Message sent! We will get back to you shortly.'"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    <p id="contact-msg"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRANCH OFFICES -->
+    <section class="branches-section">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Branch Offices</h2>
+                <p>Visit your nearest DriveFree location for in-person assistance</p>
+            </div>
+            <div class="branches-grid" data-aos>
+                <div class="branch-card">
+                    <h3><i class="fas fa-building"></i> Mumbai HQ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Unit 4B, BKC, Bandra West</p>
+                    <p><i class="fas fa-clock"></i> 7AM – 10PM, All Days</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <span class="branch-status status-open">Open Now</span>
+                </div>
+                <div class="branch-card">
+                    <h3><i class="fas fa-building"></i> Pune Branch</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Hinjewadi Phase 1, Pune</p>
+                    <p><i class="fas fa-clock"></i> 8AM – 9PM, All Days</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43211</p>
+                    <span class="branch-status status-open">Open Now</span>
+                </div>
+                <div class="branch-card">
+                    <h3><i class="fas fa-building"></i> Nashik Branch</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> City Centre, Nashik</p>
+                    <p><i class="fas fa-clock"></i> 8AM – 8PM, Mon–Sat</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43212</p>
+                    <span class="branch-status status-busy">Busy – Call Ahead</span>
+                </div>
+                <div class="branch-card">
+                    <h3><i class="fas fa-building"></i> Aurangabad</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Airport Road, Aurangabad</p>
+                    <p><i class="fas fa-clock"></i> 7AM – 9PM, All Days</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43213</p>
+                    <span class="branch-status status-open">Open Now</span>
+                </div>
+                <div class="branch-card">
+                    <h3><i class="fas fa-building"></i> Kolhapur</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rajarampuri, Kolhapur</p>
+                    <p><i class="fas fa-clock"></i> 8AM – 8PM, All Days</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43214</p>
+                    <span class="branch-status status-open">Open Now</span>
+                </div>
+                <div class="branch-card">
+                    <h3><i class="fas fa-building"></i> Nagpur</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Dharampeth, Nagpur</p>
+                    <p><i class="fas fa-clock"></i> 8AM – 9PM, Mon–Sun</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43215</p>
+                    <span class="branch-status status-open">Open Now</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL LINKS -->
+    <section class="social-section">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Follow &amp; Connect With Us</h2>
+                <p>Stay updated with our latest offers, new vehicles, and travel tips</p>
+            </div>
+            <div class="social-large" data-aos>
+                <a href="#" class="social-large-btn fb"><i class="fab fa-facebook-f" style="color:#1877f2"></i> Facebook</a>
+                <a href="#" class="social-large-btn ig"><i class="fab fa-instagram" style="color:#e4405f"></i> Instagram</a>
+                <a href="#" class="social-large-btn tw"><i class="fab fa-twitter" style="color:#1da1f2"></i> Twitter / X</a>
+                <a href="#" class="social-large-btn wa"><i class="fab fa-whatsapp" style="color:#25d366"></i> WhatsApp</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size:1.4rem; color:var(--primary-color); display:flex; align-items:center; gap:8px;"><i class="fas fa-car"></i> DriveFree</h4>
+                <p style="margin-top:0.75rem; line-height:1.7;">Your trusted partner for self-drive car rentals. Explore the region on your own terms with our premium, well-maintained fleet.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="fleet.html">Our Fleet</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Vehicle Types</h4>
+                <ul>
+                    <li><a href="fleet.html">Economy Cars</a></li>
+                    <li><a href="fleet.html">Sedans</a></li>
+                    <li><a href="fleet.html">SUVs</a></li>
+                    <li><a href="fleet.html">Luxury Cars</a></li>
+                    <li><a href="fleet.html">MUVs / Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary-color)"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary-color)"></i> info@drivefree.in</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Bandra West, Mumbai 400050</p>
+                <p style="margin-top:1rem;"><i class="fas fa-clock" style="color:var(--primary-color)"></i> 7AM – 10PM, All Days</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DriveFree. All rights reserved. | <a href="#" style="color:var(--primary-color)">Privacy Policy</a> | <a href="#" style="color:var(--primary-color)">Terms &amp; Conditions</a></p>
+        </div>
+    </div>
+</footer>
+<script src="js/main.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    (function () {
+        // DriveFree Head Office — BKC, Mumbai
+        var lat = 19.0596, lng = 72.8656;
+
+        var map = L.map('leaflet-map', { scrollWheelZoom: false }).setView([lat, lng], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        var icon = L.divIcon({
+            className: '',
+            html: '<div style="background:#3b82f6;width:18px;height:18px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>',
+            iconSize: [18, 18],
+            iconAnchor: [9, 9]
+        });
+
+        L.marker([lat, lng], { icon: icon })
+            .addTo(map)
+            .bindPopup(
+                '<strong style="color:#3b82f6">DriveFree Head Office</strong><br>' +
+                'Unit 4B, Bandra Kurla Complex<br>' +
+                'Bandra West, Mumbai 400050<br>' +
+                '<a href="https://www.google.com/maps?q=19.0596,72.8656" target="_blank" style="color:#3b82f6">Get Directions ↗</a>'
+            )
+            .openPopup();
+    })();
+</script>
+</body>
+</html>

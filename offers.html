@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DriveFree Offers – Exclusive discounts, seasonal promotions, loyalty rewards, and special deals on car rentals.">
+    <title>Offers & Deals | DriveFree Car Rental</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        [data-aos]{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}[data-aos].aos-visible{opacity:1;transform:translateY(0)}
+        .main-header.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.15)}.nav-link.active-link{color:var(--primary-color)}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}.footer-col h4{font-weight:700;margin-bottom:1rem}
+        .footer-col p{color:var(--text-muted);font-size:.9rem;margin-bottom:.5rem}.footer-col ul li{margin-bottom:.5rem}
+        .footer-col ul li a{color:var(--text-muted);font-size:.9rem;transition:color .3s}.footer-col ul li a:hover{color:var(--primary-color)}
+        .social-links{display:flex;gap:.75rem;margin-top:1rem}.social-links a{width:38px;height:38px;border-radius:50%;background:var(--bg-color);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all .3s}.social-links a:hover{background:var(--primary-color);color:white;border-color:var(--primary-color)}
+        .page-hero{padding:7rem 2rem 4rem;background:linear-gradient(135deg,rgba(15,23,42,0.75) 0%,rgba(30,58,138,0.75) 100%),url('off.jpg') center/cover no-repeat;text-align:center}
+        .page-hero h1{font-size:3rem;font-weight:800;color:white;margin-bottom:1rem}.page-hero p{color:#93c5fd;font-size:1.1rem;max-width:600px;margin:0 auto}
+        .breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.9rem}.breadcrumb a{color:#93c5fd}.breadcrumb span{color:#64748b}
+
+        /* Active Promos */
+        .promos-section{padding:5rem 2rem;background:var(--bg-color)}
+        .promo-card{background:var(--surface-color);border-radius:20px;overflow:hidden;border:1px solid var(--border-color);transition:all .3s;display:grid;grid-template-columns:1fr 1fr;}
+        .promo-card:hover{transform:translateY(-5px);box-shadow:var(--card-shadow)}
+        .promo-card.reverse .promo-image{order:2}
+        .promo-card.reverse .promo-content{order:1}
+        .promo-card+.promo-card{margin-top:2rem}
+        .promo-image img{width:100%;height:100%;object-fit:cover;min-height:250px}
+        .promo-content{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+        .promo-tag{display:inline-block;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:700;margin-bottom:1rem}
+        .tag-red{background:rgba(239,68,68,.12);color:#ef4444}
+        .tag-green{background:rgba(16,185,129,.12);color:#10b981}
+        .tag-purple{background:rgba(139,92,246,.12);color:#8b5cf6}
+        .promo-content h2{font-size:1.8rem;font-weight:800;margin-bottom:.75rem}
+        .promo-content p{color:var(--text-muted);line-height:1.8;margin-bottom:1.25rem}
+        .promo-code-box{display:flex;align-items:center;gap:.75rem;background:var(--bg-color);border:2px dashed var(--primary-color);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.5rem}
+        .promo-code{font-size:1.3rem;font-weight:800;letter-spacing:.1em;color:var(--primary-color)}
+        .copy-btn{background:var(--primary-color);color:white;border:none;padding:.4rem .8rem;border-radius:6px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .3s}
+        .copy-btn:hover{background:#1d4ed8}
+        .offer-expiry{font-size:.85rem;color:var(--text-muted);display:flex;align-items:center;gap:.4rem;margin-top:.5rem}
+        .offer-expiry i{color:#ef4444}
+
+        /* Seasonal Discounts */
+        .seasonal-section{padding:5rem 2rem;background:var(--surface-color)}
+        .seasonal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:1200px;margin:2rem auto 0}
+        .seasonal-card{border-radius:20px;overflow:hidden;position:relative;cursor:pointer}
+        .seasonal-card img{width:100%;height:250px;object-fit:cover;display:block;transition:transform .4s}
+        .seasonal-card:hover img{transform:scale(1.06)}
+        .seasonal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,rgba(0,0,0,.2) 60%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:2rem}
+        .seasonal-tag{display:inline-block;background:rgba(245,158,11,.9);color:white;padding:.3rem .8rem;border-radius:20px;font-size:.8rem;font-weight:700;margin-bottom:.5rem;align-self:flex-start}
+        .seasonal-overlay h3{color:white;font-size:1.4rem;font-weight:800;margin-bottom:.25rem}
+        .seasonal-overlay p{color:#e2e8f0;font-size:.9rem}
+        .seasonal-discount{font-size:2rem;font-weight:800;color:#fbbf24}
+
+        /* Loyalty Program */
+        .loyalty-section{padding:5rem 2rem;background:var(--bg-color)}
+        .loyalty-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;max-width:1200px;margin:2rem auto 0}
+        .loyalty-content h2{font-size:2rem;font-weight:800;margin-bottom:1rem}
+        .loyalty-content p{color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem}
+        .loyalty-tiers{display:flex;flex-direction:column;gap:1rem}
+        .loyalty-tier{display:flex;align-items:center;gap:1rem;padding:1rem;border-radius:12px;border:1px solid var(--border-color);background:var(--surface-color)}
+        .tier-badge{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+        .tier-silver{background:linear-gradient(135deg,#94a3b8,#cbd5e1)}
+        .tier-gold{background:linear-gradient(135deg,#f59e0b,#fbbf24)}
+        .tier-platinum{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+        .tier-info h4{font-weight:700;margin-bottom:.2rem}
+        .tier-info p{font-size:.85rem;color:var(--text-muted)}
+        .loyalty-image{border-radius:20px;overflow:hidden;box-shadow:var(--card-shadow)}
+        .loyalty-image img{width:100%;display:block}
+
+        /* Terms */
+        .terms-section{padding:5rem 2rem;background:var(--surface-color)}
+        .terms-container{max-width:900px;margin:0 auto}
+        .terms-box{background:var(--bg-color);border:1px solid var(--border-color);border-radius:16px;padding:2.5rem}
+        .terms-box h3{font-size:1.2rem;font-weight:700;margin-bottom:1.5rem;color:var(--primary-color)}
+        .terms-list{display:flex;flex-direction:column;gap:.75rem}
+        .terms-list li{display:flex;gap:.75rem;color:var(--text-muted);font-size:.95rem;line-height:1.6}
+        .terms-list i{color:#f59e0b;flex-shrink:0;margin-top:.2rem}
+
+        /* Subscribe */
+        .subscribe-section{padding:5rem 2rem;background:linear-gradient(135deg,#1e3a8a,#4338ca);text-align:center}
+        .subscribe-section h2{color:white;font-size:2.2rem;margin-bottom:.75rem}
+        .subscribe-section p{color:#c7d2fe;margin-bottom:2rem}
+        .subscribe-form{display:flex;max-width:500px;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+        .subscribe-form input{flex:1;padding:1rem 1.5rem;border:none;outline:none;background:white;font-size:.95rem}
+        .subscribe-form button{background:#f59e0b;color:white;border:none;padding:0 1.5rem;font-weight:700;cursor:pointer;transition:background .3s}
+        .subscribe-form button:hover{background:#d97706}
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .promo-card{grid-template-columns:1fr}
+            .promo-card.reverse .promo-image{order:1}
+            .promo-card.reverse .promo-content{order:2}
+            .seasonal-grid{grid-template-columns:1fr;gap:1.5rem}
+            .loyalty-grid{grid-template-columns:1fr;gap:2rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+
+        @media (max-width: 768px) {
+            .page-hero{padding:5rem 1.5rem 3rem}
+            .page-hero h1{font-size:2.2rem}
+            .page-hero p{font-size:1rem}
+            .promos-section{padding:3rem 1.5rem}
+            .promo-content{padding:1.5rem}
+            .promo-content h2{font-size:1.5rem}
+            .promo-content p{font-size:0.95rem}
+            .promo-code{font-size:1.1rem}
+            .promo-code-box{padding:0.6rem 0.85rem;flex-direction:column;align-items:flex-start;gap:0.5rem}
+            .seasonal-section{padding:3rem 1.5rem}
+            .seasonal-grid{gap:1.5rem}
+            .seasonal-card img{height:200px}
+            .seasonal-overlay{padding:1.5rem}
+            .seasonal-overlay h3{font-size:1.2rem}
+            .seasonal-discount{font-size:1.6rem}
+            .loyalty-section{padding:3rem 1.5rem}
+            .loyalty-content h2{font-size:1.6rem}
+            .loyalty-content p{font-size:0.95rem}
+            .loyalty-tier{padding:0.85rem}
+            .tier-badge{width:40px;height:40px;font-size:1.2rem}
+            .terms-section{padding:3rem 1.5rem}
+            .terms-box{padding:1.5rem}
+            .subscribe-section{padding:3rem 1.5rem}
+            .subscribe-section h2{font-size:1.8rem}
+            .subscribe-form{flex-direction:column}
+            .subscribe-form input{padding:0.85rem 1rem}
+            .subscribe-form button{padding:0.85rem 1.5rem}
+        }
+
+        @media (max-width: 480px) {
+            .page-hero h1{font-size:1.8rem}
+            .page-hero p{font-size:0.9rem}
+            .promos-section{padding:2.5rem 1rem}
+            .promo-card+.promo-card{margin-top:1.5rem}
+            .promo-content{padding:1.25rem}
+            .promo-content h2{font-size:1.3rem}
+            .promo-content p{font-size:0.9rem}
+            .promo-code{font-size:1rem}
+            .seasonal-section{padding:2.5rem 1rem}
+            .seasonal-card img{height:180px}
+            .seasonal-overlay{padding:1.25rem}
+            .seasonal-overlay h3{font-size:1.1rem}
+            .seasonal-discount{font-size:1.4rem}
+            .loyalty-section{padding:2.5rem 1rem}
+            .loyalty-content h2{font-size:1.4rem}
+            .loyalty-content p{font-size:0.9rem}
+            .loyalty-tier{padding:0.75rem;gap:0.75rem}
+            .tier-badge{width:35px;height:35px;font-size:1rem}
+            .tier-info h4{font-size:0.95rem}
+            .tier-info p{font-size:0.8rem}
+            .terms-section{padding:2.5rem 1rem}
+            .terms-box{padding:1.25rem}
+            .terms-box h3{font-size:1.1rem}
+            .terms-list li{font-size:0.9rem}
+            .subscribe-section{padding:2.5rem 1rem}
+            .subscribe-section h2{font-size:1.5rem}
+            .subscribe-section p{font-size:0.9rem}
+            .subscribe-form input{font-size:0.9rem;padding:0.75rem 1rem}
+            .subscribe-form button{padding:0.75rem 1.25rem;font-size:0.9rem}
+            .footer-grid{grid-template-columns:1fr;gap:1.5rem}
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo"><a href="index.html"><h1><i class="fas fa-car"></i> DriveFree</h1></a></div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <nav><ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu"><li><a href="index.html">Home 1</a></li><li><a href="home2.html">Home 2</a></li></ul></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+            <li class="nav-item"><a href="fleet.html" class="nav-link">Our Fleet</a></li>
+            <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Dashboard <i class="fas fa-chevron-down fa-xs"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="user-dashboard.html">User Dashboard</a></li>
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                </ul>
+            </li>
+            <li class="nav-item mobile-menu-actions">
+                <div class="mobile-menu-actions-row">
+                    <button class="btn-icon" id="theme-toggle-mobile"><i class="fas fa-moon"></i></button>
+                    <button class="rtl-pill" id="rtl-toggle-mobile">
+                        <span class="pill-label">LTR</span>
+                        <span class="pill-circle">L</span>
+                    </button>
+                </div>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> Login</a>
+            </li>
+        </ul></nav>
+        <div class="header-actions">
+            <button class="btn-icon" id="theme-toggle"><i class="fas fa-moon"></i></button>
+            <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                <span class="pill-label">LTR</span>
+                <span class="pill-circle">L</span>
+            </button>
+            <a href="login.html" class="btn btn-primary" style="padding:.6rem 1.2rem;font-size:.9rem;"><i class="fas fa-user"></i> Login</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <h1>Exclusive Offers &amp; Deals</h1>
+        <p>Save more on every ride. Explore our curated promotions, seasonal discounts, and loyalty rewards.</p>
+    </section>
+
+    <!-- ACTIVE PROMOS -->
+    <section class="promos-section">
+        <div class="section-container">
+            <div class="section-title" data-aos><h2>Active Promotions</h2><p>Limited-time offers — grab them before they expire!</p></div>
+            <div class="promo-card" data-aos>
+                <div class="promo-image"><img src="w1.jpg" alt="Weekend Offer"></div>
+                <div class="promo-content">
+                    <span class="promo-tag tag-red"><i class="fas fa-fire"></i> Hot Deal</span>
+                    <h2>Weekend Escape – 20% Off</h2>
+                    <p>Book any vehicle for Friday–Sunday and get 20% off your total rental. Valid for Economy and Sedan categories. Perfect for road trips and getaways!</p>
+                    <div class="promo-code-box">
+                        <span class="promo-code">WEEKEND20</span>
+                        <button class="copy-btn" onclick="navigator.clipboard.writeText('WEEKEND20');this.textContent='Copied!'">Copy Code</button>
+                    </div>
+                    <a href="fleet.html" class="btn btn-primary"><i class="fas fa-car"></i> Book Now</a>
+                    <span class="offer-expiry"><i class="fas fa-clock"></i> Expires: 31 July 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEASONAL DISCOUNTS -->
+    <section class="seasonal-section">
+        <div class="section-container">
+            <div class="section-title" data-aos><h2>Seasonal Discounts</h2><p>Plan ahead and save big on upcoming holiday seasons</p></div>
+            <div class="seasonal-grid" data-aos>
+                <div class="seasonal-card">
+                    <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=700&q=80" alt="Monsoon Drive">
+                    <div class="seasonal-overlay">
+                        <span class="seasonal-tag">Monsoon Special</span>
+                        <h3>Monsoon Road Trip Deals</h3>
+                        <p>Explore the Ghats this season</p>
+                        <div class="seasonal-discount">15% OFF</div>
+                    </div>
+                </div>
+                <div class="seasonal-card">
+                    <img src="dw.jpg" alt="Festive Season">
+                    <div class="seasonal-overlay">
+                        <span class="seasonal-tag">Festive Offer</span>
+                        <h3>Diwali &amp; Festival Season</h3>
+                        <p>Celebrate with a premium ride</p>
+                        <div class="seasonal-discount">25% OFF</div>
+                    </div>
+                </div>
+                <div class="seasonal-card">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80" alt="Winter Hills">
+                    <div class="seasonal-overlay">
+                        <span class="seasonal-tag">Winter Escape</span>
+                        <h3>Hill Station Packages</h3>
+                        <p>Lonavala, Mahabaleshwar &amp; more</p>
+                        <div class="seasonal-discount">18% OFF</div>
+                    </div>
+                </div>
+                <div class="seasonal-card">
+                    <img src="nw.jpg" alt="New Year">
+                    <div class="seasonal-overlay">
+                        <span class="seasonal-tag">New Year Special</span>
+                        <h3>Ring in the New Year on the Road</h3>
+                        <p>Book 3+ days &amp; save big</p>
+                        <div class="seasonal-discount">20% OFF</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOYALTY PROGRAM -->
+    <section class="loyalty-section">
+        <div class="loyalty-grid">
+            <div class="loyalty-content" data-aos>
+                <h2>DriveFree Loyalty Program</h2>
+                <p>Earn points with every rental. Redeem them for free days, upgrades, and exclusive perks. The more you drive, the more you save.</p>
+                <div class="loyalty-tiers">
+                    <div class="loyalty-tier">
+                        <div class="tier-badge tier-silver"><i class="fas fa-medal" style="color:white"></i></div>
+                        <div class="tier-info"><h4>Silver – 0 to 500 pts</h4><p>5% cashback on all rentals + free cancellation</p></div>
+                    </div>
+                    <div class="loyalty-tier">
+                        <div class="tier-badge tier-gold"><i class="fas fa-star" style="color:white"></i></div>
+                        <div class="tier-info"><h4>Gold – 500 to 2000 pts</h4><p>10% cashback + priority booking + free upgrades</p></div>
+                    </div>
+                    <div class="loyalty-tier">
+                        <div class="tier-badge tier-platinum"><i class="fas fa-gem" style="color:white"></i></div>
+                        <div class="tier-info"><h4>Platinum – 2000+ pts</h4><p>15% cashback + dedicated manager + airport delivery</p></div>
+                    </div>
+                </div>
+                <a href="user-dashboard.html" class="btn btn-primary" style="margin-top:1.5rem"><i class="fas fa-user"></i> Join Now — It's Free</a>
+            </div>
+            <div class="loyalty-image" data-aos>
+                <img src="cr.jpg" alt="Loyalty Program">
+            </div>
+        </div>
+    </section>
+
+    <!-- TERMS & CONDITIONS -->
+    <section class="terms-section">
+        <div class="terms-container">
+            <div class="section-title" data-aos><h2>Offer Terms &amp; Conditions</h2><p>Please read before applying any promo code</p></div>
+            <div class="terms-box" data-aos>
+                <h3><i class="fas fa-info-circle"></i> General Terms</h3>
+                <ul class="terms-list">
+                    <li><i class="fas fa-exclamation-triangle"></i>One promo code per booking. Codes cannot be combined with other offers.</li>
+                    <li><i class="fas fa-exclamation-triangle"></i>Offers are valid only for online bookings made through the DriveFree website or app.</li>
+                    <li><i class="fas fa-exclamation-triangle"></i>Discounts apply to the base rental rate only. Taxes, insurance surcharges, and optional add-ons are not discounted.</li>
+                    <li><i class="fas fa-exclamation-triangle"></i>DriveFree reserves the right to modify or withdraw any offer without prior notice.</li>
+                    <li><i class="fas fa-exclamation-triangle"></i>Loyalty points are credited within 48 hours of vehicle return.</li>
+                    <li><i class="fas fa-exclamation-triangle"></i>Seasonal offers are applicable only during the specified travel dates.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUBSCRIBE -->
+    <section class="subscribe-section">
+        <div class="section-container" data-aos>
+            <h2>Never Miss a Deal Again</h2>
+            <p>Subscribe to receive exclusive offers and early access to seasonal promotions directly in your inbox.</p>
+            <form class="subscribe-form" onsubmit="return false;">
+                <input type="email" placeholder="Your email address...">
+                <button type="submit"><i class="fas fa-tag"></i> Get Deals</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size:1.4rem; color:var(--primary-color); display:flex; align-items:center; gap:8px;"><i class="fas fa-car"></i> DriveFree</h4>
+                <p style="margin-top:0.75rem; line-height:1.7;">Your trusted partner for self-drive car rentals. Explore the region on your own terms with our premium, well-maintained fleet.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="fleet.html">Our Fleet</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Vehicle Types</h4>
+                <ul>
+                    <li><a href="fleet.html">Economy Cars</a></li>
+                    <li><a href="fleet.html">Sedans</a></li>
+                    <li><a href="fleet.html">SUVs</a></li>
+                    <li><a href="fleet.html">Luxury Cars</a></li>
+                    <li><a href="fleet.html">MUVs / Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary-color)"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary-color)"></i> info@drivefree.in</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Bandra West, Mumbai 400050</p>
+                <p style="margin-top:1rem;"><i class="fas fa-clock" style="color:var(--primary-color)"></i> 7AM – 10PM, All Days</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DriveFree. All rights reserved. | <a href="#" style="color:var(--primary-color)">Privacy Policy</a> | <a href="#" style="color:var(--primary-color)">Terms &amp; Conditions</a></p>
+        </div>
+    </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

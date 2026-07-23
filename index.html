@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DriveFree – Premium car rental & self-drive booking service. Browse vehicles, check availability, and book in minutes.">
+    <title>DriveFree | Car Rental & Self-Drive Booking</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232565eb' width='100' height='100' rx='20'/><path fill='white' d='M20 55 L25 45 L35 45 L40 55 L20 55 M60 55 L65 45 L75 45 L80 55 L60 55 M30 55 L70 55 L70 65 L30 65 L30 55 M25 65 L75 65 L75 70 L25 70 L25 65 M35 40 L65 40 L65 45 L35 45 L35 40'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ---- PAGE-SPECIFIC STYLES ---- */
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1d4ed8 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 2rem 4rem;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%);
+            top: -100px; right: -100px;
+            border-radius: 50%;
+        }
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59,130,246,0.2);
+            color: #93c5fd;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(59,130,246,0.4);
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+        }
+        .hero-content h1 span { color: #60a5fa; }
+        .hero-content p {
+            color: #94a3b8;
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+        }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #3b82f6;
+            color: #93c5fd;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover { background: #3b82f6; color: white; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+        .hero-stat h3 { font-size: 1.8rem; color: #60a5fa; font-weight: 800; }
+        .hero-stat p { color: #94a3b8; font-size: 0.9rem; }
+        .hero-image-box {
+            position: relative;
+        }
+        .hero-image-box img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .hero-floating-card {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .hero-floating-card i { color: #10b981; font-size: 1.5rem; }
+        .hero-floating-card p { color: #0f172a; font-weight: 700; font-size: 0.9rem; }
+        .hero-floating-card span { color: #64748b; font-size: 0.8rem; }
+
+        /* Search Bar */
+        .search-section {
+            background: var(--surface-color);
+            padding: 2.5rem 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        .search-container { max-width: 1200px; margin: 0 auto; }
+        .search-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .search-field label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .search-field select, .search-field input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--surface-color);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .search-field select:focus, .search-field input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+
+        /* Vehicle Categories */
+        .categories-section { padding: 5rem 2rem; background: var(--bg-color); }
+        .category-card {
+            background: var(--surface-color);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .category-card:hover { transform: translateY(-8px); box-shadow: var(--card-shadow); }
+        .category-card img { width: 100%; height: 180px; object-fit: cover; }
+        .category-card-body { padding: 1.25rem; }
+        .category-card-body h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .category-card-body p { color: var(--text-muted); font-size: 0.9rem; }
+        .price-tag {
+            display: inline-block;
+            margin-top: 0.75rem;
+            background: rgba(59,130,246,0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* How It Works */
+        .how-section { padding: 5rem 2rem; background: var(--surface-color); }
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
+        .step { text-align: center; padding: 2rem 1rem; }
+        .step-icon {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #60a5fa);
+            margin: 0 auto 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+        }
+        .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .step p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* ============ COVERAGE AREA — REDESIGNED ============ */
+        .coverage-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(160deg, #060d1f 0%, #0f1e3d 50%, #0a1628 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .coverage-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 700px 400px at 20% 60%, rgba(37,99,235,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 300px at 80% 20%, rgba(99,102,241,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        /* floating grid-dot background */
+        .coverage-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(59,130,246,0.15) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+        .coverage-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .coverage-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .coverage-header .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: rgba(59,130,246,0.15);
+            border: 1px solid rgba(59,130,246,0.35);
+            color: #93c5fd;
+            padding: .4rem 1.1rem;
+            border-radius: 20px;
+            font-size: .85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 1.1rem;
+        }
+        .coverage-header h2 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            margin-bottom: .75rem;
+        }
+        .coverage-header h2 span { color: #60a5fa; }
+        .coverage-header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+        /* Map + cards grid */
+        .coverage-body {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        /* SVG-style schematic map panel */
+        .coverage-map-panel {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(59,130,246,0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .map-panel-label {
+            font-size: .8rem;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 1.25rem;
+        }
+        /* Dot-map schematic */
+        .dot-map {
+            flex: 1;
+            position: relative;
+        }
+        .map-region {
+            width: 100%;
+            height: 200px;
+            background:
+                radial-gradient(ellipse 160px 120px at 40% 55%, rgba(37,99,235,0.22) 0%, transparent 70%),
+                radial-gradient(ellipse 100px 80px at 70% 30%, rgba(99,102,241,0.15) 0%, transparent 70%);
+            border-radius: 16px;
+            border: 1px dashed rgba(59,130,246,0.25);
+            position: relative;
+            overflow: visible;
+            margin-bottom: 1.5rem;
+        }
+        /* Pulse pins */
+        .map-pin {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: default;
+        }
+        .map-pin .pin-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #3b82f6;
+            box-shadow: 0 0 0 0 rgba(59,130,246,0.6);
+            animation: pulse-pin 2.5s infinite;
+            position: relative;
+            z-index: 2;
+        }
+        .map-pin.pin-large .pin-dot {
+            width: 16px; height: 16px;
+            background: #60a5fa;
+        }
+        .map-pin .pin-label {
+            font-size: .7rem;
+            font-weight: 700;
+            color: #93c5fd;
+            margin-top: .35rem;
+            white-space: nowrap;
+            background: rgba(15,23,42,0.85);
+            padding: .15rem .45rem;
+            border-radius: 4px;
+        }
+        @keyframes pulse-pin {
+            0%   { box-shadow: 0 0 0 0   rgba(59,130,246,0.6); }
+            60%  { box-shadow: 0 0 0 12px rgba(59,130,246,0); }
+            100% { box-shadow: 0 0 0 0   rgba(59,130,246,0); }
+        }
+        .map-pin:nth-child(2) .pin-dot { animation-delay: .4s; }
+        .map-pin:nth-child(3) .pin-dot { animation-delay: .8s; }
+        .map-pin:nth-child(4) .pin-dot { animation-delay: 1.2s; }
+        .map-pin:nth-child(5) .pin-dot { animation-delay: 1.6s; }
+        /* Coverage quick-stats inside map panel */
+        .map-quick-stats {
+            display: flex;
+            gap: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(59,130,246,0.15);
+        }
+        .map-qs {
+            flex: 1;
+            text-align: center;
+        }
+        .map-qs .qs-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #60a5fa;
+            display: block;
+        }
+        .map-qs .qs-label {
+            font-size: .75rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        /* City cards right column */
+        .city-cards-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: .9rem;
+        }
+        .city-card-new {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(59,130,246,0.15);
+            border-radius: 14px;
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .city-card-new::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(59,130,246,0.07) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity .35s;
+        }
+        .city-card-new:hover { border-color: rgba(59,130,246,0.5); transform: translateX(6px); box-shadow: 0 0 30px rgba(59,130,246,0.08); }
+        .city-card-new:hover::before { opacity: 1; }
+        .city-num {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.25);
+            color: #60a5fa;
+            font-weight: 800;
+            font-size: .85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .city-card-info { flex: 1; }
+        .city-card-info h4 { font-weight: 700; color: #e2e8f0; margin-bottom: .2rem; font-size: .95rem; }
+        .city-card-info p { font-size: .8rem; color: #64748b; }
+        .city-card-meta {
+            display: flex;
+            align-items: center;
+            gap: .35rem;
+            font-size: .78rem;
+            font-weight: 700;
+            color: #10b981;
+            background: rgba(16,185,129,0.1);
+            padding: .25rem .6rem;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        /* Coming soon ribbon */
+        .coming-soon-strip {
+            margin-top: 3.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 16px;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .cs-left { display: flex; align-items: center; gap: 1rem; }
+        .cs-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: rgba(245,158,11,0.12);
+            color: #f59e0b;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+        .cs-text h4 { font-weight: 700; color: #e2e8f0; font-size: .95rem; margin-bottom: .15rem; }
+        .cs-text p { font-size: .82rem; color: #64748b; }
+        .cs-cities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+        .cs-chip {
+            background: rgba(245,158,11,0.1);
+            border: 1px solid rgba(245,158,11,0.25);
+            color: #fbbf24;
+            font-size: .75rem;
+            font-weight: 700;
+            padding: .25rem .7rem;
+            border-radius: 20px;
+        }
+
+        /* Testimonials */
+        .testimonials-section { padding: 5rem 2rem; background: var(--surface-color); }
+        .testimonial-card {
+            background: var(--bg-color);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .testimonial-card:hover { box-shadow: var(--card-shadow); transform: translateY(-4px); }
+        .stars { color: #f59e0b; margin-bottom: 0.75rem; }
+        .testimonial-text { color: var(--text-muted); font-style: italic; margin-bottom: 1.25rem; line-height: 1.7; flex: 1; }
+        .testimonial-author { display: flex; align-items: center; gap: 1rem; margin-top: auto; }
+        .testimonial-avatar {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #60a5fa);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 700;
+        }
+        .testimonial-author h4 { font-weight: 700; }
+        .testimonial-author span { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            text-align: center;
+        }
+        .cta-section h2 { color: white; font-size: 2.5rem; margin-bottom: 1rem; }
+        .cta-section p { color: #93c5fd; font-size: 1.1rem; margin-bottom: 2rem; }
+        .btn-white {
+            background: white;
+            color: var(--primary-color);
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-white:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+
+        /* Scrolled header style */
+        .main-header.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+
+        /* Active nav link */
+        .nav-link.active-link { color: var(--primary-color); }
+
+        /* AOS animations */
+        [data-aos] { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        [data-aos].aos-visible { opacity: 1; transform: translateY(0); }
+
+        /* FOOTER GRID */
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .footer-col h4 { font-weight: 700; margin-bottom: 1rem; }
+        .footer-col p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .footer-col ul li { margin-bottom: 0.5rem; }
+        .footer-col ul li a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary-color); }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1rem; }
+        .social-links a {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+        .social-links a:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .hero-container{grid-template-columns:1fr;gap:2rem;text-align:center}
+            .hero-content{order:2}
+            .hero-image-box{order:1}
+            .hero-buttons{justify-content:center}
+            .hero-stats{justify-content:center}
+            .search-bar{grid-template-columns:1fr 1fr auto;gap:0.75rem;padding:1rem}
+            .hero-floating-card{display:none}
+            .coverage-body{grid-template-columns:1fr;gap:2rem}
+            .coverage-map-panel{min-height:300px}
+            .steps{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+
+        @media (max-width: 768px) {
+            .hero{padding:5rem 1.5rem 3rem}
+            .hero-content h1{font-size:2.5rem}
+            .hero-content p{font-size:1rem}
+            .hero-badge{font-size:0.85rem;padding:0.35rem 0.85rem}
+            .hero-stat h3{font-size:1.5rem}
+            .hero-stat p{font-size:0.85rem}
+            .search-section{padding:2rem 1.5rem}
+            .search-bar{grid-template-columns:1fr;gap:0.75rem;padding:1rem}
+            .categories-section,.how-section,.testimonials-section,.cta-section{padding:3rem 1.5rem}
+            .coverage-section{padding:4rem 1.5rem}
+            .coverage-header h2{font-size:2rem}
+            .coverage-header p{font-size:0.95rem}
+            .coverage-map-panel{padding:1.5rem;min-height:280px}
+            .map-region{height:160px}
+            .map-quick-stats{gap:0.75rem;padding-top:1rem}
+            .map-qs .qs-val{font-size:1.4rem}
+            .city-card-new{padding:0.9rem 1rem}
+            .city-num{width:32px;height:32px;font-size:0.75rem}
+            .city-card-info h4{font-size:0.9rem}
+            .city-card-info p{font-size:0.75rem}
+            .coming-soon-strip{flex-direction:column;align-items:flex-start;gap:1rem;padding:1rem 1.5rem}
+            .cs-cities{justify-content:flex-start}
+            .category-card img{height:150px}
+            .category-card-body{padding:1rem}
+            .category-card-body h3{font-size:1rem}
+            .step{padding:1.5rem 0.75rem}
+            .step-icon{width:55px;height:55px;font-size:1.3rem}
+            .step h3{font-size:1rem}
+            .step p{font-size:0.85rem}
+            .testimonial-card{padding:1.5rem}
+            .cta-section h2{font-size:2rem}
+            .cta-section p{font-size:1rem}
+        }
+
+        @media (max-width: 480px) {
+            .hero{padding:4rem 1rem 2.5rem}
+            .hero-content h1{font-size:2rem}
+            .hero-content p{font-size:0.9rem}
+            .hero-buttons{flex-direction:column;gap:0.75rem}
+            .hero-buttons .btn{width:100%}
+            .hero-stats{flex-direction:column;gap:1rem;text-align:center}
+            .search-section{padding:1.5rem 1rem}
+            .search-bar{padding:0.75rem}
+            .search-field label{font-size:0.75rem}
+            .search-field select,.search-field input{font-size:0.9rem;padding:0.7rem 0.9rem}
+            .categories-section,.how-section,.testimonials-section,.cta-section{padding:2.5rem 1rem}
+            .coverage-section{padding:3rem 1rem}
+            .coverage-header .eyebrow{font-size:0.75rem;padding:0.35rem 0.9rem}
+            .coverage-header h2{font-size:1.6rem}
+            .coverage-header p{font-size:0.9rem}
+            .coverage-map-panel{padding:1rem;min-height:240px}
+            .map-region{height:130px}
+            .map-pin .pin-dot{width:10px;height:10px}
+            .map-pin.pin-large .pin-dot{width:14px;height:14px}
+            .map-pin .pin-label{font-size:0.65rem;padding:0.1rem 0.35rem}
+            .map-quick-stats{gap:0.5rem}
+            .map-qs .qs-val{font-size:1.2rem}
+            .map-qs .qs-label{font-size:0.7rem}
+            .city-card-new{padding:0.75rem 0.85rem;gap:0.75rem}
+            .city-num{width:28px;height:28px;font-size:0.7rem}
+            .city-card-info h4{font-size:0.85rem}
+            .city-card-info p{font-size:0.7rem}
+            .city-card-meta{font-size:0.7rem;padding:0.2rem 0.5rem}
+            .coming-soon-strip{padding:0.85rem 1rem}
+            .cs-icon{width:38px;height:38px;font-size:1rem}
+            .cs-text h4{font-size:0.9rem}
+            .cs-text p{font-size:0.75rem}
+            .cs-chip{font-size:0.7rem;padding:0.2rem 0.6rem}
+            .category-card img{height:130px}
+            .category-card-body h3{font-size:0.95rem}
+            .category-card-body p{font-size:0.85rem}
+            .price-tag{font-size:0.85rem;padding:0.25rem 0.6rem}
+            .steps{grid-template-columns:1fr;gap:1rem}
+            .step{padding:1.25rem 0.5rem}
+            .testimonial-card{padding:1.25rem}
+            .testimonial-text{font-size:0.9rem}
+            .testimonial-avatar{width:40px;height:40px;font-size:0.9rem}
+            .testimonial-author h4{font-size:0.95rem}
+            .testimonial-author span{font-size:0.8rem}
+            .cta-section h2{font-size:1.6rem}
+            .cta-section p{font-size:0.9rem}
+            .btn-white{padding:0.75rem 1.5rem;font-size:0.9rem}
+            .footer-grid{grid-template-columns:1fr;gap:1.5rem}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============= HEADER ============= -->
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html"><h1><i class="fas fa-car"></i> DriveFree</h1></a>
+        </div>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active-link">Home <i class="fas fa-chevron-down fa-xs"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html">Home 1</a></li>
+                        <li><a href="home2.html">Home 2</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item">
+                    <a href="services.html" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item"><a href="fleet.html" class="nav-link">Our Fleet</a></li>
+                <li class="nav-item"><a href="offers.html" class="nav-link">Offers</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Dashboard <i class="fas fa-chevron-down fa-xs"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="user-dashboard.html">User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item mobile-menu-actions">
+                    <div class="mobile-menu-actions-row">
+                        <button class="btn-icon" id="theme-toggle-mobile"><i class="fas fa-moon"></i></button>
+                        <button class="rtl-pill" id="rtl-toggle-mobile">
+                            <span class="pill-label">LTR</span>
+                            <span class="pill-circle">L</span>
+                        </button>
+                    </div>
+                    <a href="login.html" class="btn btn-primary"><i class="fas fa-user"></i> Login</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <button class="btn-icon" id="theme-toggle" title="Toggle Dark/Light Mode"><i class="fas fa-moon"></i></button>
+            <button class="rtl-pill" id="rtl-toggle" title="Toggle LTR/RTL">
+                <span class="pill-label">LTR</span>
+                <span class="pill-circle">L</span>
+            </button>
+            <a href="login.html" class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+                <i class="fas fa-user"></i> Login
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- ============= HERO ============= -->
+    <section class="hero" id="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-badge"><i class="fas fa-star"></i> #1 Self-Drive Service in the Region</span>
+                <h1>Drive on Your Own <span>Terms &amp; Schedule</span></h1>
+                <p>Choose from 40+ premium vehicles. No driver. No hassle. Full freedom on the road — at prices that make sense.</p>
+                <div class="hero-buttons">
+                    <a href="fleet.html" class="btn btn-primary"><i class="fas fa-car"></i> Browse Fleet</a>
+                    <a href="user-dashboard.html" class="btn-outline"><i class="fas fa-calendar-check"></i> My Bookings</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><h3>5K+</h3><p>Happy Customers</p></div>
+                    <div class="hero-stat"><h3>40+</h3><p>Vehicles Available</p></div>
+                    <div class="hero-stat"><h3>12</h3><p>Cities Covered</p></div>
+                </div>
+            </div>
+            <div class="hero-image-box" data-aos>
+                <img src="he1.jpg" alt="Premium car for self-drive rental">
+                <div class="hero-floating-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <p>Fully Insured</p>
+                        <span>All vehicles covered</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============= SEARCH / BOOKING BAR ============= -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-bar">
+                <div class="search-field">
+                    <label>Pick-up Location</label>
+                    <select id="pickup-location">
+                        <option>Select City</option>
+                        <option>Mumbai</option>
+                        <option>Pune</option>
+                        <option>Nashik</option>
+                        <option>Aurangabad</option>
+                    </select>
+                </div>
+                <div class="search-field">
+                    <label>Pick-up Date</label>
+                    <input type="date" id="pickup-date">
+                </div>
+                <div class="search-field">
+                    <label>Drop-off Date</label>
+                    <input type="date" id="dropoff-date">
+                </div>
+                <button class="btn btn-primary" style="height: 48px; white-space:nowrap;" id="check-availability">
+                    <i class="fas fa-search"></i> Check Availability
+                </button>
+            </div>
+            <p id="availability-result" style="margin-top:1rem; font-weight:600;"></p>
+        </div>
+    </section>
+
+    <!-- ============= VEHICLE CATEGORIES ============= -->
+    <section class="categories-section" id="categories">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>Vehicle Categories</h2>
+                <p>Find the perfect car for every journey and budget</p>
+            </div>
+            <div class="grid-4">
+                <div class="category-card" data-aos>
+                    <img src="e1.jpg" alt="Economy Cars">
+                    <div class="category-card-body">
+                        <h3>Economy Cars</h3>
+                        <p>Budget-friendly city drives</p>
+                        <span class="price-tag">From ₹799/day</span>
+                    </div>
+                </div>
+                <div class="category-card" data-aos>
+                    <img src="e2.jpg" alt="Sedans">
+                    <div class="category-card-body">
+                        <h3>Sedans</h3>
+                        <p>Comfort for longer trips</p>
+                        <span class="price-tag">From ₹1,199/day</span>
+                    </div>
+                </div>
+                <div class="category-card" data-aos>
+                    <img src="e3.jpg" alt="SUVs">
+                    <div class="category-card-body">
+                        <h3>SUVs</h3>
+                        <p>Space &amp; power for all terrain</p>
+                        <span class="price-tag">From ₹1,799/day</span>
+                    </div>
+                </div>
+                <div class="category-card" data-aos>
+                    <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80" alt="Luxury Cars">
+                    <div class="category-card-body">
+                        <h3>Luxury Cars</h3>
+                        <p>Premium experiences</p>
+                        <span class="price-tag">From ₹3,499/day</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============= HOW IT WORKS ============= -->
+    <section class="how-section" id="how-it-works">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>How It Works</h2>
+                <p>Get on the road in just 4 easy steps</p>
+            </div>
+            <div class="steps">
+                <div class="step" data-aos>
+                    <div class="step-icon"><i class="fas fa-search"></i></div>
+                    <h3>1. Browse &amp; Select</h3>
+                    <p>Explore our fleet and pick the vehicle that suits your trip.</p>
+                </div>
+                <div class="step" data-aos>
+                    <div class="step-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>2. Choose Dates</h3>
+                    <p>Select your pick-up and drop-off dates and location.</p>
+                </div>
+                <div class="step" data-aos>
+                    <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+                    <h3>3. Book &amp; Pay</h3>
+                    <p>Confirm your booking securely with our fast payment system.</p>
+                </div>
+                <div class="step" data-aos>
+                    <div class="step-icon"><i class="fas fa-key"></i></div>
+                    <h3>4. Drive Away!</h3>
+                    <p>Pick up your vehicle and enjoy the freedom of the open road.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============= COVERAGE AREA — REDESIGNED ============= -->
+    <section class="coverage-section" id="coverage">
+        <div class="coverage-inner">
+
+            <!-- Header -->
+            <div class="coverage-header" data-aos>
+                <span class="eyebrow"><i class="fas fa-map-marked-alt"></i> Where We Operate</span>
+                <h2>Covering <span>Maharashtra</span> &amp;<br>Beyond</h2>
+                <p>Pick up and drop off across 12 cities with more locations opening every quarter.</p>
+            </div>
+
+            <!-- Body: Map panel + City cards -->
+            <div class="coverage-body">
+
+                <!-- Left: Schematic map panel -->
+                <div class="coverage-map-panel" data-aos>
+                    <div class="map-panel-label"><i class="fas fa-satellite-dish" style="margin-right:.4rem;"></i> Live Network Map</div>
+                    <div class="dot-map">
+                        <div class="map-region">
+                            <!-- Mumbai -->
+                            <div class="map-pin pin-large" style="left:22%;top:62%;">
+                                <div class="pin-dot"></div>
+                                <span class="pin-label">Mumbai</span>
+                            </div>
+                            <!-- Pune -->
+                            <div class="map-pin" style="left:35%;top:70%;">
+                                <div class="pin-dot"></div>
+                                <span class="pin-label">Pune</span>
+                            </div>
+                            <!-- Nashik -->
+                            <div class="map-pin" style="left:30%;top:38%;">
+                                <div class="pin-dot"></div>
+                                <span class="pin-label">Nashik</span>
+                            </div>
+                            <!-- Aurangabad -->
+                            <div class="map-pin" style="left:55%;top:42%;">
+                                <div class="pin-dot"></div>
+                                <span class="pin-label">Aurangabad</span>
+                            </div>
+                            <!-- Nagpur -->
+                            <div class="map-pin" style="left:75%;top:28%;">
+                                <div class="pin-dot"></div>
+                                <span class="pin-label">Nagpur</span>
+                            </div>
+                            <!-- Kolhapur -->
+                            <div class="map-pin" style="left:28%;top:85%;">
+                                <div class="pin-dot"></div>
+                                <span class="pin-label">Kolhapur</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Quick stats inside the panel -->
+                    <div class="map-quick-stats">
+                        <div class="map-qs">
+                            <span class="qs-val">12</span>
+                            <span class="qs-label">Cities</span>
+                        </div>
+                        <div class="map-qs">
+                            <span class="qs-val">24</span>
+                            <span class="qs-label">Pick-up Points</span>
+                        </div>
+                        <div class="map-qs">
+                            <span class="qs-val">3</span>
+                            <span class="qs-label">States</span>
+                        </div>
+                        <div class="map-qs">
+                            <span class="qs-val">24/7</span>
+                            <span class="qs-label">Support</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: City cards -->
+                <div class="city-cards-wrap" data-aos>
+                    <div class="city-card-new">
+                        <div class="city-num">01</div>
+                        <div class="city-card-info">
+                            <h4>Mumbai</h4>
+                            <p>Airport (T1/T2), BKC, Thane — 3 locations</p>
+                        </div>
+                        <span class="city-card-meta"><i class="fas fa-circle" style="font-size:.45rem;"></i> Live</span>
+                    </div>
+                    <div class="city-card-new">
+                        <div class="city-num">02</div>
+                        <div class="city-card-info">
+                            <h4>Pune</h4>
+                            <p>Hinjewadi IT Park, Shivajinagar — 2 locations</p>
+                        </div>
+                        <span class="city-card-meta"><i class="fas fa-circle" style="font-size:.45rem;"></i> Live</span>
+                    </div>
+                    <div class="city-card-new">
+                        <div class="city-num">03</div>
+                        <div class="city-card-info">
+                            <h4>Nashik</h4>
+                            <p>City Centre, Old Agra Road — 2 locations</p>
+                        </div>
+                        <span class="city-card-meta"><i class="fas fa-circle" style="font-size:.45rem;"></i> Live</span>
+                    </div>
+                    <div class="city-card-new">
+                        <div class="city-num">04</div>
+                        <div class="city-card-info">
+                            <h4>Aurangabad</h4>
+                            <p>Airport Road, CIDCO — 2 locations</p>
+                        </div>
+                        <span class="city-card-meta"><i class="fas fa-circle" style="font-size:.45rem;"></i> Live</span>
+                    </div>
+                    <div class="city-card-new">
+                        <div class="city-num">05</div>
+                        <div class="city-card-info">
+                            <h4>Nagpur</h4>
+                            <p>Dharampeth, Airport — 2 locations</p>
+                        </div>
+                        <span class="city-card-meta"><i class="fas fa-circle" style="font-size:.45rem;"></i> Live</span>
+                    </div>
+                    <div class="city-card-new">
+                        <div class="city-num">06</div>
+                        <div class="city-card-info">
+                            <h4>Kolhapur</h4>
+                            <p>Rajarampuri, New Shahupuri — 2 locations</p>
+                        </div>
+                        <span class="city-card-meta"><i class="fas fa-circle" style="font-size:.45rem;"></i> Live</span>
+                    </div>
+                    <a href="contact.html" class="btn btn-primary" style="margin-top:.5rem; text-align:center; display:flex; align-items:center; justify-content:center; gap:.5rem;">
+                        <i class="fas fa-map-marker-alt"></i> Find Nearest Pick-up Point
+                    </a>
+                </div>
+            </div>
+
+            <!-- Coming Soon strip -->
+            <div class="coming-soon-strip" data-aos>
+                <div class="cs-left">
+                    <div class="cs-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="cs-text">
+                        <h4>Expanding Soon</h4>
+                        <p>New cities launching in Q3 &amp; Q4 2026 — stay tuned!</p>
+                    </div>
+                </div>
+                <div class="cs-cities">
+                    <span class="cs-chip">Goa</span>
+                    <span class="cs-chip">Solapur</span>
+                    <span class="cs-chip">Satara</span>
+                    <span class="cs-chip">Ahmednagar</span>
+                    <span class="cs-chip">Jalgaon</span>
+                    <span class="cs-chip">Latur</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============= TESTIMONIALS ============= -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="section-container">
+            <div class="section-title" data-aos>
+                <h2>What Our Customers Say</h2>
+                <p>Real experiences from real drivers</p>
+            </div>
+            <div class="grid-3" data-aos>
+                <div class="testimonial-card">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Absolutely seamless experience! Booked a Swift for a weekend trip to Mahabaleshwar. The car was spotless and the process was super smooth."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RK</div>
+                        <div><h4>Rahul Kulkarni</h4><span>Pune, Maharashtra</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Great range of vehicles and pricing is very transparent. The extension request was handled in under an hour. Will definitely use again!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">PM</div>
+                        <div><h4>Priya Mehta</h4><span>Mumbai, Maharashtra</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                    <p class="testimonial-text">"Used DriveFree for a business trip and it was fantastic. Being able to download my rental agreement from the dashboard was super convenient."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AS</div>
+                        <div><h4>Amit Singh</h4><span>Nashik, Maharashtra</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============= CTA ============= -->
+    <section class="cta-section" id="cta">
+        <div class="section-container" data-aos>
+            <h2>Ready for Your Next Adventure?</h2>
+            <p>Join 5,000+ happy customers and drive on your own terms. Sign up and get your first rental at 10% off!</p>
+            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                <a href="fleet.html" class="btn-white"><i class="fas fa-car"></i> Explore Fleet</a>
+                <a href="user-dashboard.html" class="btn-outline" style="color:white; border-color:white;"><i class="fas fa-user-plus"></i> Create Account</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ============= FOOTER ============= -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size:1.4rem; color:var(--primary-color); display:flex; align-items:center; gap:8px;"><i class="fas fa-car"></i> DriveFree</h4>
+                <p style="margin-top:0.75rem; line-height:1.7;">Your trusted partner for self-drive car rentals. Explore the region on your own terms with our premium, well-maintained fleet.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="fleet.html">Our Fleet</a></li>
+                    <li><a href="offers.html">Offers</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Vehicle Types</h4>
+                <ul>
+                    <li><a href="fleet.html">Economy Cars</a></li>
+                    <li><a href="fleet.html">Sedans</a></li>
+                    <li><a href="fleet.html">SUVs</a></li>
+                    <li><a href="fleet.html">Luxury Cars</a></li>
+                    <li><a href="fleet.html">MUVs / Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary-color)"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary-color)"></i> info@drivefree.in</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary-color)"></i> Bandra West, Mumbai 400050</p>
+                <p style="margin-top:1rem;"><i class="fas fa-clock" style="color:var(--primary-color)"></i> 7AM – 10PM, All Days</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DriveFree. All rights reserved. | <a href="#" style="color:var(--primary-color)">Privacy Policy</a> | <a href="#" style="color:var(--primary-color)">Terms &amp; Conditions</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
